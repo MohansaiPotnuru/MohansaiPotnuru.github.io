@@ -218,6 +218,62 @@ header.nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srg
 footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--faint); font-size: 13.5px; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
 
+/* ---- charts: single-series marks, validated #0891b2 (light) / #0ea5c6 (dark) ---- */
+:root { --mark: #0891b2; --grid: #e6eaf2; --ref: #94a3b8; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --mark: #0ea5c6; --grid: #1c2740; --ref: #64748b; } }
+:root[data-theme="dark"] { --mark: #0ea5c6; --grid: #1c2740; --ref: #64748b; }
+.viz-grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .viz-grid { grid-template-columns: repeat(2, 1fr); } }
+figure.viz { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+figure.viz.wide { grid-column: 1 / -1; }
+figure.viz h3 { font-size: 16px; }
+figure.viz .sub { color: var(--muted); font-size: 13.5px; margin: -4px 0 0; }
+figure.viz svg { width: 100%; height: auto; display: block; }
+figure.viz svg text { font-family: Inter, system-ui, sans-serif; }
+figure.viz .t-axis { fill: var(--faint); font-size: 11px; }
+figure.viz .t-label { fill: var(--muted); font-size: 12px; }
+figure.viz .t-value { fill: var(--text); font-size: 11.5px; font-family: "JetBrains Mono", monospace; }
+figure.viz .bar { fill: var(--mark); }
+figure.viz .hit { fill: transparent; }
+figure.viz g.row:hover .bar { fill: color-mix(in srgb, var(--mark) 78%, var(--text)); }
+figure.viz .gridline { stroke: var(--grid); stroke-width: 1; }
+figure.viz .refline { stroke: var(--ref); stroke-width: 1.5; stroke-dasharray: 4 4; }
+figure.viz .line { fill: none; stroke: var(--mark); stroke-width: 2; }
+figure.viz .dot { fill: var(--mark); stroke: var(--card); stroke-width: 2; }
+figure.viz figcaption { color: var(--faint); font-size: 12.5px; }
+figure.viz details { font-size: 13px; color: var(--muted); }
+figure.viz details summary { cursor: pointer; color: var(--accent); font-weight: 600; width: fit-content; }
+figure.viz table { border-collapse: collapse; margin-top: 8px; font: 12px "JetBrains Mono", monospace; width: 100%; }
+figure.viz th, figure.viz td { text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+figure.viz th:first-child, figure.viz td:first-child { text-align: left; }
+.gantt-scroll { overflow-x: auto; }
+.gantt-scroll svg { min-width: 760px; }
+.kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 760px) { .kpis { grid-template-columns: repeat(4, 1fr); } }
+.kpi { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
+.kpi .n { font: 700 24px/1.1 "JetBrains Mono", monospace; }
+.kpi .l { color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+.kpi .ok { color: var(--accent-3); }
+#viz-tip { position: fixed; z-index: 100; pointer-events: none; background: var(--text); color: var(--bg); font: 12px/1.45 Inter, sans-serif; padding: 7px 10px; border-radius: 8px; max-width: 280px; opacity: 0; transform: translate(-50%, calc(-100% - 14px)); transition: opacity .1s; box-shadow: var(--shadow); }
+#viz-tip b { font-family: "JetBrains Mono", monospace; }
+
+/* ---- gallery ---- */
+.gallery { columns: 1; column-gap: 14px; }
+@media (min-width: 640px) { .gallery { columns: 2; } }
+@media (min-width: 1000px) { .gallery { columns: 3; } }
+.shot { break-inside: avoid; margin: 0 0 14px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.shot button { all: unset; display: block; cursor: zoom-in; width: 100%; }
+.shot button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.shot img { width: 100%; height: auto; display: block; background: var(--bg-2); transition: transform .25s ease; }
+.shot button:hover img { transform: scale(1.02); }
+.shot figcaption { padding: 10px 14px 12px; font-size: 13.5px; color: var(--muted); }
+.shot figcaption b { color: var(--text); display: block; font-size: 14px; }
+dialog#lightbox { border: 0; padding: 0; background: transparent; max-width: min(92vw, 1000px); overflow: visible; }
+dialog#lightbox::backdrop { background: rgba(2,6,23,.85); }
+dialog#lightbox img { max-width: 100%; max-height: 80vh; display: block; border-radius: 12px; margin: 0 auto; }
+dialog#lightbox p { color: #e2e8f0; text-align: center; font-size: 14px; margin: 12px 0 0; }
+dialog#lightbox button { position: absolute; top: -14px; right: -14px; width: 34px; height: 34px; border-radius: 50%; border: 0; background: #e2e8f0; color: #0f172a; font-size: 18px; cursor: pointer; }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } .pulse { animation: none !important; } }
 .pulse { animation: pulse 2.4s ease-in-out infinite; }
 @keyframes pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
@@ -230,8 +286,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Mohan Sai Potnuru, home"><span class="brand-chip">MS</span><span>Mohan Sai Potnuru</span></a>
     <nav class="links" aria-label="Sections">
-      <a href="#stack">Stack</a><a href="#projects">Projects</a><a href="#experience">Experience</a>
-      <a href="#achievements">Achievements</a><a href="#skills">Skills</a><a href="#certs">Certifications</a><a href="#contact">Contact</a>
+      <a href="#stack">Stack</a><a href="#projects">Projects</a><a href="#data">Data</a><a href="#experience">Experience</a>
+      <a href="#achievements">Achievements</a><a href="#gallery">Gallery</a><a href="#skills">Skills</a><a href="#certs">Certifications</a><a href="#contact">Contact</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" id="theme" type="button" aria-label="Toggle colour theme">
@@ -243,8 +299,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </div>
   </div>
   <div class="mobile-menu" id="mobile-menu">
-    <a href="#stack">Stack</a><a href="#projects">Projects</a><a href="#experience">Experience</a>
-    <a href="#achievements">Achievements</a><a href="#skills">Skills</a><a href="#certs">Certifications</a><a href="#contact">Contact</a>
+    <a href="#stack">Stack</a><a href="#projects">Projects</a><a href="#data">Data</a><a href="#experience">Experience</a>
+    <a href="#achievements">Achievements</a><a href="#gallery">Gallery</a><a href="#skills">Skills</a><a href="#certs">Certifications</a><a href="#contact">Contact</a>
   </div>
 </header>
 
@@ -526,6 +582,58 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   </div>
 </section>
 
+<!-- ================================================================ DATA -->
+<section id="data">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">// evidence, not adjectives</div>
+      <h2>Engineering data</h2>
+      <p class="lead">Real numbers from my own build artefacts: the LibreLane signoff metrics of the RISC-V SoC (release v2.1) and the FreeRTOS schedule computed from the firmware's task table. Hover any mark for exact values; every chart also has a data table.</p>
+    </div>
+
+    <div class="kpis" style="margin-bottom:18px">
+      <div class="kpi"><div class="n ok">0</div><div class="l">DRC errors (Magic) · LVS errors · antenna violations</div></div>
+      <div class="kpi"><div class="n">+7.26 ns</div><div class="l">worst setup slack across 9 corners (25 ns clock)</div></div>
+      <div class="kpi"><div class="n">+34 ps</div><div class="l">worst hold slack (ff · −40 °C · 1.95 V)</div></div>
+      <div class="kpi"><div class="n">13,481</div><div class="l">standard cells at 52.7 % utilisation</div></div>
+    </div>
+
+    <div class="viz-grid">
+      <figure class="viz">
+        <h3>Setup slack by PVT/RC corner</h3>
+        <p class="sub">Positive = timing met. Dashed line: zero slack. Clock period 25 ns.</p>
+        <div id="chart-setup" role="img" aria-label="Bar chart of worst setup slack per corner, all positive, from 7.26 ns at slow corners to 15.59 ns at fast corners"></div>
+        <details><summary>Data table</summary><div data-table="setup"></div></details>
+      </figure>
+      <figure class="viz">
+        <h3>Hold slack by PVT/RC corner</h3>
+        <p class="sub">The fast corners are the hold-critical ones: hold buffers (1,361 inserted) keep them positive.</p>
+        <div id="chart-hold" role="img" aria-label="Bar chart of worst hold slack per corner, all positive, smallest 0.034 ns at fast corners"></div>
+        <details><summary>Data table</summary><div data-table="hold"></div></details>
+      </figure>
+      <figure class="viz">
+        <h3>Detailed-routing DRC convergence</h3>
+        <p class="sub">Violations after each TritonRoute iteration: 466 → 0.</p>
+        <div id="chart-drc" role="img" aria-label="Line chart of routing DRC errors per iteration: 466, 83, 39, 0, 8, 0"></div>
+        <details><summary>Data table</summary><div data-table="drc"></div></details>
+      </figure>
+      <figure class="viz">
+        <h3>Standard-cell mix</h3>
+        <p class="sub">13,481 cells, excluding 32,443 filler cells. Repair buffers come from slew, cap, fanout and hold fixing.</p>
+        <div id="chart-cells" role="img" aria-label="Bar chart of standard cell counts by class"></div>
+        <details><summary>Data table</summary><div data-table="cells"></div></details>
+      </figure>
+      <figure class="viz wide">
+        <h3>FreeRTOS schedule at the critical instant</h3>
+        <p class="sub">Every task released at t = 0, the worst case response-time analysis bounds. Higher priority preempts lower; ◆ marks each task's completion (its response time). The second sensor/process release appears at 10 ms.</p>
+        <div class="gantt-scroll"><div id="chart-gantt" role="img" aria-label="Gantt chart of six FreeRTOS tasks over 12 milliseconds; response times tmr_svc 20 us, supervisor 320 us, sensor 470 us, process 620 us, telemetry 1620 us, cli 6620 us"></div></div>
+        <figcaption>Simulated at 1 µs resolution from the task table in <a href="https://github.com/MohansaiPotnuru/rtos-condition-monitor/blob/main/app/app_tasks.c" target="_blank" rel="noopener">app_tasks.c</a> using budgeted WCETs. The firmware's RTA adds mutex blocking on top (process +50 µs, telemetry +10 ms), giving 670 µs and 11,920 µs, still inside 10 ms and 100 ms deadlines.</figcaption>
+        <details><summary>Data table</summary><div data-table="gantt"></div></details>
+      </figure>
+    </div>
+  </div>
+</section>
+
 <!-- ========================================================== EXPERIENCE -->
 <section id="experience">
   <div class="wrap">
@@ -577,6 +685,29 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <div class="ach-card"><div class="em">🎪</div><h3>Main Student Coordinator, Technotsav</h3><p>ECE technical fest</p><div class="when">DLBCE</div></div>
       <div class="ach-card"><div class="em">🤝</div><h3>Industry–academia FDP</h3><p>Automation, Digital Twin, Industry 4.0 and Private 5G at GIET University, with BSNL and Kaumodaki NexusGrid</p><div class="when">Jun 2026</div></div>
       <div class="ach-card"><div class="em">🎓</div><h3>NPTEL Elite</h3><p>Sensors and Actuators: 12-week course, assignments 25/25</p><div class="when">Apr 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================= GALLERY -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">// in the field</div>
+      <h2>Gallery</h2>
+      <p class="lead">Events, demos, teaching and leadership moments, from my LinkedIn posts. Click any photo to enlarge it.</p>
+    </div>
+    <div class="gallery">
+      <figure class="shot"><button type="button" data-full="assets/img/nasa-space-apps.jpg" data-cap="NASA International Space Apps Challenge 2026, Visakhapatnam: Lead Support"><img src="assets/img/nasa-space-apps.jpg" alt="NASA Space Apps Challenge 2026 Visakhapatnam poster introducing P. Mohan Sai as Lead Support" width="358" height="508" loading="lazy"></button><figcaption><b>NASA Space Apps 2026: Lead Support</b>Visakhapatnam local event, second year in the role</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/iot-summit-booth.jpg" data-cap="IoT Summit '26, VMRDA Children Arena, Visakhapatnam"><img src="assets/img/iot-summit-booth.jpg" alt="Mohan Sai at a sponsor booth at IoT Summit 2026" width="480" height="480" loading="lazy"></button><figcaption><b>IoT Summit '26</b>Sponsor delegate, 17 Sep 2026, Visakhapatnam</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/dre-certificate.jpg" data-cap="DRE Enterprise Hackathon '26: Certificate of Achievement, Top 6 Finalist"><img src="assets/img/dre-certificate.jpg" alt="DRE Enterprise Hackathon 2026 Top 6 Finalist certificate for Potnuru Mohan Sai, Team INVENTORS" width="480" height="339" loading="lazy"></button><figcaption><b>DRE Enterprise Hackathon '26: Top 6</b>Team INVENTORS · DRE-MachGuard · prize winners</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/iot-summit-demo.jpg" data-cap="Hardware demo for students at the Kaumodaki Labs stall, IoT Summit '26"><img src="assets/img/iot-summit-demo.jpg" alt="A hardware demo for a group of students at the Kaumodaki Labs stall" width="480" height="360" loading="lazy"></button><figcaption><b>Live demos at the Kaumodaki Labs stall</b>Embedded and IoT prototypes for students</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/ev-workshop-felicitation.jpg" data-cap="Resource Person, EV Technology workshop, Dadi Institute of Engineering & Technology (with APSSDC), Sep 2026"><img src="assets/img/ev-workshop-felicitation.jpg" alt="Being felicitated as resource person at the EV Technology workshop at DIET" width="480" height="330" loading="lazy"></button><figcaption><b>Resource Person: EV Technology</b>3-day workshop at DIET with APSSDC, 7–9 Sep 2026</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/iot-summit-team.jpg" data-cap="Kaumodaki NexusGrid team at the IoT Summit '26 stall"><img src="assets/img/iot-summit-team.jpg" alt="Kaumodaki NexusGrid team at their IoT Summit stall" width="480" height="360" loading="lazy"></button><figcaption><b>Team Kaumodaki NexusGrid</b>"Powering Industry 4.0 / 5.0 skill development"</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/giet-fdp.jpg" data-cap="FDP on Automation Challenges & Solutions, GIET University, with BSNL; supported by Kaumodaki NexusGrid, June 2026"><img src="assets/img/giet-fdp.jpg" alt="Banner of the Faculty Development Programme at GIET University supported by Kaumodaki NexusGrid" width="480" height="360" loading="lazy"></button><figcaption><b>Industry–academia FDP, GIET University</b>AI, Digital Twin, IoT, Industry 4.0, Private 5G · 22–24 Jun 2026</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/future-skills-summit.jpg" data-cap="Future Skills Summit & Awards 2026, T-Works Hyderabad"><img src="assets/img/future-skills-summit.jpg" alt="Group photo at the Future Skills Summit and Awards 2026 exhibition stall" width="480" height="247" loading="lazy"></button><figcaption><b>Future Skills Summit &amp; Awards 2026</b>Showcasing Zimly with the NexusGrid team, T-Works Hyderabad</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/iot-summit-stage.jpg" data-cap="On stage at IoT Summit '26 with organisers and sponsors"><img src="assets/img/iot-summit-stage.jpg" alt="Group on stage at IoT Summit 2026" width="480" height="270" loading="lazy"></button><figcaption><b>IoT Summit '26 on stage</b>With organisers, sponsors and delegates</figcaption></figure>
+      <figure class="shot"><button type="button" data-full="assets/img/ev-workshop-group.jpg" data-cap="EV Technology workshop participants and faculty, DIET"><img src="assets/img/ev-workshop-group.jpg" alt="Group photo of the EV Technology workshop at DIET" width="480" height="218" loading="lazy"></button><figcaption><b>EV workshop cohort</b>Faculty and participants, DIET Anakapalle</figcaption></figure>
     </div>
   </div>
 </section>
@@ -646,6 +777,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   </div>
 </footer>
 
+<div id="viz-tip" role="tooltip"></div>
+<dialog id="lightbox" aria-label="Photo viewer"><button type="button" aria-label="Close">×</button><img alt=""><p></p></dialog>
+
 <script>
 (function () {
   var root = document.documentElement;
@@ -683,6 +817,152 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     document.querySelectorAll('main section[id]').forEach(function (s) { io.observe(s); });
   }
   document.getElementById('yr').textContent = new Date().getFullYear();
+
+  /* ------------------------------------------------------------ charts --- */
+  // Data: riscv-uart-sky130-soc release v2.1 metrics.json (LibreLane), and a
+  // 1 us preemptive fixed-priority simulation of rtos-condition-monitor's task table.
+  var NS = 'http://www.w3.org/2000/svg';
+  var corners = [
+    ['ss · 100 °C · 1.60 V · min RC', 7.835, 0.747], ['ss · 100 °C · 1.60 V · nom RC', 7.533, 0.754], ['ss · 100 °C · 1.60 V · max RC', 7.260, 0.761],
+    ['tt · 25 °C · 1.80 V · min RC', 13.309, 0.226], ['tt · 25 °C · 1.80 V · nom RC', 13.139, 0.230], ['tt · 25 °C · 1.80 V · max RC', 12.985, 0.234],
+    ['ff · −40 °C · 1.95 V · min RC', 15.592, 0.0344], ['ff · −40 °C · 1.95 V · nom RC', 15.480, 0.0373], ['ff · −40 °C · 1.95 V · max RC', 15.379, 0.0402]
+  ];
+  var drc = [466, 83, 39, 0, 8, 0];
+  var cells = [['Combinational (multi-input)', 4644], ['Timing-repair buffers', 3537], ['Tap cells', 3274], ['Sequential (flip-flops)', 1509],
+               ['Clock buffers', 333], ['Inverters', 69], ['Clock inverters', 43], ['Antenna cells', 40], ['Buffers', 32]];
+  var gantt = [ // name, priority, period us, wcet us, [[start,end],...], response us
+    ['tmr_svc', 6, 100000, 20, [[0, 20]], 20], ['supervisor', 5, 500000, 300, [[20, 320]], 320],
+    ['sensor', 4, 10000, 150, [[320, 470], [10000, 10150]], 470], ['process', 3, 10000, 150, [[470, 620], [10150, 10300]], 620],
+    ['telemetry', 2, 100000, 1000, [[620, 1620]], 1620], ['cli', 1, 50000, 5000, [[1620, 6620]], 6620]
+  ];
+
+  var tip = document.getElementById('viz-tip');
+  function showTip(e, html) { tip.innerHTML = html; tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; tip.style.opacity = '1'; }
+  function hideTip() { tip.style.opacity = '0'; }
+  function el(name, attrs, parent, text) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    if (text !== undefined) n.textContent = text;
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function svgRoot(host, w, h) { var s = el('svg', { viewBox: '0 0 ' + w + ' ' + h, preserveAspectRatio: 'xMidYMid meet' }); host.appendChild(s); return s; }
+  function niceTicks(max, n) { var step = Math.pow(10, Math.floor(Math.log10(max / n))); var errs = [1, 2, 2.5, 5, 10]; for (var i = 0; i < errs.length; i++) { if (max / (step * errs[i]) <= n) { step *= errs[i]; break; } } var t = [], top = Math.ceil(max / step - 1e-9) * step; for (var v = 0; v <= top + 1e-9; v += step) t.push(+v.toFixed(6)); return t; }
+  function table(key, head, rows) {
+    var host = document.querySelector('[data-table="' + key + '"]'); if (!host) return;
+    var h = '<table><thead><tr>' + head.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '</tr></thead><tbody>';
+    rows.forEach(function (r) { h += '<tr>' + r.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>'; });
+    host.innerHTML = h + '</tbody></table>';
+  }
+
+  // Horizontal bar chart, single series. Bars anchored at zero, 4px rounded data end.
+  function hbar(id, rows, opt) {
+    var host = document.getElementById(id); if (!host) return;
+    var W = 560, labelW = opt.labelW || 190, rowH = 26, top = 6, bottom = 26, H = top + rows.length * rowH + bottom;
+    var max = opt.max || Math.max.apply(null, rows.map(function (r) { return r[1]; }));
+    var ticks = niceTicks(max, 4); max = ticks[ticks.length - 1];
+    var plotW = W - labelW - 78, x = function (v) { return labelW + (v / max) * plotW; };
+    var s = svgRoot(host, W, H);
+    ticks.forEach(function (t) {
+      el('line', { x1: x(t), x2: x(t), y1: top, y2: H - bottom, class: t === 0 ? 'refline' : 'gridline' }, s);
+      el('text', { x: x(t), y: H - 8, 'text-anchor': 'middle', class: 't-axis' }, s, opt.fmtTick ? opt.fmtTick(t) : t);
+    });
+    rows.forEach(function (r, i) {
+      var y = top + i * rowH, bh = 14, by = y + (rowH - bh) / 2, w = Math.max(2, x(r[1]) - x(0));
+      var g = el('g', { class: 'row' }, s);
+      el('text', { x: labelW - 10, y: y + rowH / 2 + 4, 'text-anchor': 'end', class: 't-label' }, g, r[0]);
+      el('path', { class: 'bar', d: 'M' + x(0) + ',' + by + 'h' + (w - 4) + 'a4,4 0 0 1 4,4v' + (bh - 8) + 'a4,4 0 0 1 -4,4h' + (-(w - 4)) + 'z' }, g);
+      if (opt.labelValues) el('text', { x: x(r[1]) + 6, y: y + rowH / 2 + 4, class: 't-value' }, g, opt.fmt(r[1]));
+      var hit = el('rect', { x: 0, y: y, width: W, height: rowH, class: 'hit' }, g);
+      hit.addEventListener('mousemove', function (e) { showTip(e, r[0] + '<br><b>' + opt.fmt(r[1]) + '</b>' + (opt.extra ? opt.extra(r) : '')); });
+      hit.addEventListener('mouseleave', hideTip);
+    });
+  }
+
+  hbar('chart-setup', corners.map(function (c) { return [c[0], c[1]]; }), {
+    labelW: 200, labelValues: true, fmt: function (v) { return '+' + v.toFixed(2) + ' ns'; }, fmtTick: function (t) { return t + ' ns'; },
+    extra: function (r) { return '<br>' + (r[1] / 25 * 100).toFixed(0) + ' % of the 25 ns period spare'; }
+  });
+  hbar('chart-hold', corners.map(function (c) { return [c[0], c[2]]; }), {
+    labelW: 200, labelValues: true, fmt: function (v) { return '+' + (v * 1000).toFixed(0) + ' ps'; }, fmtTick: function (t) { return (t * 1000).toFixed(0) + ' ps'; }
+  });
+  hbar('chart-cells', cells, {
+    labelW: 180, labelValues: true, fmt: function (v) { return v.toLocaleString('en-US'); },
+    extra: function (r) { return '<br>' + (r[1] / 13481 * 100).toFixed(1) + ' % of standard cells'; }
+  });
+
+  // Line chart: DRC violations per detailed-routing iteration.
+  (function () {
+    var host = document.getElementById('chart-drc'); if (!host) return;
+    var W = 560, H = 250, L = 46, R = 16, T = 14, Bm = 34, max = 500;
+    var x = function (i) { return L + i * (W - L - R) / (drc.length - 1); }, y = function (v) { return T + (1 - v / max) * (H - T - Bm); };
+    var s = svgRoot(host, W, H);
+    [0, 100, 200, 300, 400, 500].forEach(function (t) {
+      el('line', { x1: L, x2: W - R, y1: y(t), y2: y(t), class: t === 0 ? 'refline' : 'gridline' }, s);
+      el('text', { x: L - 8, y: y(t) + 4, 'text-anchor': 'end', class: 't-axis' }, s, t);
+    });
+    drc.forEach(function (v, i) { el('text', { x: x(i), y: H - 12, 'text-anchor': 'middle', class: 't-axis' }, s, 'iter ' + i); });
+    el('path', { class: 'line', d: drc.map(function (v, i) { return (i ? 'L' : 'M') + x(i) + ',' + y(v); }).join('') }, s);
+    drc.forEach(function (v, i) {
+      el('circle', { cx: x(i), cy: y(v), r: 5, class: 'dot' }, s);
+      if (i === 0 || i === drc.length - 1) el('text', { x: x(i) + (i ? -8 : 10), y: y(v) - 10, 'text-anchor': i ? 'end' : 'start', class: 't-value' }, s, v + (i ? ' (clean)' : ' violations'));
+      var hit = el('rect', { x: x(i) - 30, y: T, width: 60, height: H - T - Bm, class: 'hit' }, s);
+      hit.addEventListener('mousemove', function (e) { showTip(e, 'Routing iteration ' + i + '<br><b>' + v + '</b> DRC violations'); });
+      hit.addEventListener('mouseleave', hideTip);
+    });
+  })();
+
+  // Gantt: one lane per task (lane label carries identity), single mark colour.
+  (function () {
+    var host = document.getElementById('chart-gantt'); if (!host) return;
+    var W = 1040, L = 150, R = 20, T = 8, rowH = 34, Bm = 30, span = 12000, H = T + gantt.length * rowH + Bm;
+    var x = function (us) { return L + (us / span) * (W - L - R); };
+    var s = svgRoot(host, W, H);
+    for (var t = 0; t <= span; t += 1000) {
+      el('line', { x1: x(t), x2: x(t), y1: T, y2: H - Bm, class: t === 10000 ? 'refline' : 'gridline' }, s);
+      el('text', { x: x(t), y: H - 10, 'text-anchor': 'middle', class: 't-axis' }, s, (t / 1000) + ' ms');
+    }
+    el('text', { x: x(10000) + 6, y: T + 12, class: 't-axis' }, s, '10 ms: next sensor release');
+    gantt.forEach(function (g, i) {
+      var y = T + i * rowH, bh = 16, by = y + (rowH - bh) / 2;
+      el('text', { x: L - 12, y: y + rowH / 2 + 4, 'text-anchor': 'end', class: 't-label' }, s, g[0] + '  (p' + g[1] + ')');
+      el('line', { x1: L, x2: W - R, y1: y + rowH / 2, y2: y + rowH / 2, class: 'gridline' }, s);
+      g[4].forEach(function (seg) {
+        var w = Math.max(3, x(seg[1]) - x(seg[0]));
+        el('rect', { x: x(seg[0]), y: by, width: w, height: bh, rx: Math.min(4, w / 2), class: 'bar' }, s);
+      });
+      var rx = x(g[5]);
+      el('path', { d: 'M' + rx + ',' + (by - 5) + 'l5,5l-5,5l-5,-5z', class: 'dot' }, s);
+      el('text', { x: rx + 9, y: y + rowH / 2 + 4, class: 't-value' }, s, 'R = ' + g[5].toLocaleString('en-US') + ' µs');
+      var hit = el('rect', { x: 0, y: y, width: W, height: rowH, class: 'hit' }, s);
+      hit.addEventListener('mousemove', function (e) {
+        showTip(e, '<b>' + g[0] + '</b>, priority ' + g[1] + '<br>T = ' + g[2].toLocaleString('en-US') + ' µs, C = ' + g[3] + ' µs<br>response at critical instant: <b>' + g[5].toLocaleString('en-US') + ' µs</b>');
+      });
+      hit.addEventListener('mouseleave', hideTip);
+    });
+  })();
+
+  table('setup', ['corner', 'setup WS (ns)'], corners.map(function (c) { return [c[0], '+' + c[1].toFixed(3)]; }));
+  table('hold', ['corner', 'hold WS (ps)'], corners.map(function (c) { return [c[0], '+' + (c[2] * 1000).toFixed(1)]; }));
+  table('drc', ['iteration', 'DRC violations'], drc.map(function (v, i) { return [i, v]; }));
+  table('cells', ['class', 'count'], cells.map(function (c) { return [c[0], c[1].toLocaleString('en-US')]; }));
+  table('gantt', ['task', 'prio', 'T (µs)', 'C (µs)', 'runs (µs)', 'R (µs)'], gantt.map(function (g) {
+    return [g[0], g[1], g[2].toLocaleString('en-US'), g[3], g[4].map(function (s) { return s[0] + '–' + s[1]; }).join(', '), g[5].toLocaleString('en-US')];
+  }));
+
+  /* ---------------------------------------------------------- lightbox --- */
+  var lb = document.getElementById('lightbox');
+  if (lb && typeof lb.showModal === 'function') {
+    var lbImg = lb.querySelector('img'), lbCap = lb.querySelector('p');
+    document.querySelectorAll('.shot button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        lbImg.src = b.getAttribute('data-full'); lbImg.alt = b.querySelector('img').alt; lbCap.textContent = b.getAttribute('data-cap'); lb.showModal();
+      });
+    });
+    lb.querySelector('button').addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+  }
+
 })();
 </script>
 </body>
