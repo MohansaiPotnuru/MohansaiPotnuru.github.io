@@ -74,6 +74,7 @@ p { margin: 0; }
 
 /* ---------- glideshow ---------- */
 .glide { position: relative; }
+html, body { overflow-x: clip; }
 .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #111; }
 .layer { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .9s ease; }
 .layer.on { opacity: 1; }
@@ -155,9 +156,11 @@ dialog .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); ri
   .split .pic { min-height: 60svh; }
   .layer .sharp { right: 50%; translate: 50% 0; top: 16px; max-width: calc(100% - 32px); max-height: 46svh; }
   .layer figcaption { display: none; }
+  .layer .art { top: 16px; height: 50svh; }
   .slot { align-items: flex-end; padding-bottom: 32px; }
   .card { margin-left: 0; padding: 30px 22px; }
-  .intro-card { padding-bottom: 20svh; }
+  .intro-card { padding-bottom: 4svh; }
+  .intro-card h2 { font-size: clamp(30px, 9vw, 44px); overflow-wrap: anywhere; }
   .roles, .certs, .edu { grid-template-columns: 1fr; }
   .skills { grid-template-columns: 1fr 1fr; }
   .band { padding-block: 80px 64px; }
@@ -228,7 +231,7 @@ dialog .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); ri
     <div class="slot gut"><div class="card intro-card"><p class="kicker">Chapter 1</p><h2>Experience</h2><p>Where I've worked, built and represented my team.</p></div></div>
     <div class="slot gut"><article class="card">
       <p class="meta">Apr 2026 – present · Visakhapatnam</p>
-      <h3>Embedded Systems &amp; IoT Engineer</h3>
+      <h3>Embedded Systems &amp; IoT Engineer (Intern)</h3>
       <p><b style="color:var(--fg)">Kaumodaki NexusGrid</b></p>
       <ul>
         <li>ESP32 and ESP32-CAM firmware: sensor acquisition, Wi-Fi and MQTT, cloud dashboards</li>
@@ -437,7 +440,6 @@ dialog .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); ri
   // seeded random so the art is the same on every load
   function rng(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
   var W = 1600, H = 900, A = '#f2b544', C = '#59c7dd', G = '#3a3a3d';
-  function base(svg) { svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('preserveAspectRatio', 'xMidYMid slice'); return '<rect width="1600" height="900" fill="#151517"/>'; }
   var art = {
     riscv: function () { // standard-cell rows with three macros
       var r = rng(7), s = '', y, x, w;
@@ -493,11 +495,28 @@ dialog .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); ri
       return s + '<path d="M1380 520 L1310 660 L1370 660 L1330 780 L1450 610 L1385 610 L1430 520 Z" fill="' + A + '"/><text x="680" y="640" fill="#888" font-family="JetBrains Mono, monospace" font-size="22">Solar PV → MPPT → battery → EV charger</text>';
     }
   };
-  document.querySelectorAll('svg.art').forEach(function (svg) {
-    var k = svg.getAttribute('data-art');
-    svg.innerHTML = base(svg) + art[k]() + '<rect width="1600" height="900" fill="url(#fade' + k + ')"/>' +
-      '<defs><linearGradient id="fade' + k + '" x1="0" x2="1"><stop offset="0" stop-color="#151517"/><stop offset=".45" stop-color="#151517" stop-opacity=".2"/><stop offset="1" stop-color="#151517" stop-opacity="0"/></linearGradient></defs>';
-  });
+  // desktop: art is squeezed into the right part of the stage so the text card never covers it
+  // phone: the whole drawing sits at the top, above the card
+  var mqArt = window.matchMedia('(max-width: 860px)');
+  function drawArt() {
+    var phone = mqArt.matches;
+    document.querySelectorAll('svg.art').forEach(function (svg) {
+      var k = svg.getAttribute('data-art'), body = art[k]();
+      if (phone) {
+        svg.setAttribute('viewBox', '570 20 1020 860');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+        svg.innerHTML = '<rect x="570" y="20" width="1020" height="860" fill="#151517"/>' + body;
+      } else {
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+        svg.innerHTML = '<rect width="1600" height="900" fill="#151517"/><g transform="translate(369 106) scale(.765)">' + body + '</g>' +
+          '<rect width="1600" height="900" fill="url(#fade' + k + ')"/>' +
+          '<defs><linearGradient id="fade' + k + '" x1="0" x2="1"><stop offset="0" stop-color="#151517"/><stop offset=".45" stop-color="#151517" stop-opacity=".2"/><stop offset="1" stop-color="#151517" stop-opacity="0"/></linearGradient></defs>';
+      }
+    });
+  }
+  drawArt();
+  if (mqArt.addEventListener) mqArt.addEventListener('change', drawArt);
 
   // glideshow: the slot in the middle of the screen picks the visible layer
   document.querySelectorAll('.glide').forEach(function (g) {
