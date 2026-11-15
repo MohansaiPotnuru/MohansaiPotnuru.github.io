@@ -75,7 +75,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .docline span:last-child { margin-left: auto; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 48px; align-items: center; }
 .hero h1 {
-  font-size: clamp(52px, 9.4vw, 128px); font-weight: 900; font-stretch: 125%;
+  font-size: clamp(46px, 6.9vw, 108px); font-weight: 900; font-stretch: 125%;
   letter-spacing: -.035em; line-height: .88; text-transform: uppercase;
 }
 .hero h1 .last { display: block; color: transparent; -webkit-text-stroke: 1.6px var(--ink); }
@@ -223,13 +223,13 @@ dialog.lb .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px));
 .timing svg { display: block; min-width: 780px; width: 100%; height: auto; }
 .timing text { font-family: var(--font-mono); }
 .roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 34px; }
-.r { padding-block: 20px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
-.r .sig { font: 600 12px/1 var(--font-mono); color: var(--gold); padding-top: 5px; }
-.r h3 { font-size: 19px; font-stretch: 100%; font-weight: 700; line-height: 1.25; }
-.r .org { margin-top: 4px; font-size: 14px; color: var(--muted); }
-.r .when { font: 500 12px/1 var(--font-mono); color: var(--muted); margin-top: 8px; }
-.r p { margin-top: 10px; font-size: 15px; }
-.r ul { margin: 10px 0 0; padding-left: 18px; font-size: 15px; display: grid; gap: 4px; }
+.role-row { padding-block: 20px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
+.role-row .sig { font: 600 12px/1 var(--font-mono); color: var(--gold); padding-top: 5px; }
+.role-row h3 { font-size: 19px; font-stretch: 100%; font-weight: 700; line-height: 1.25; }
+.role-row .org { margin-top: 4px; font-size: 14px; color: var(--muted); }
+.role-row .when { font: 500 12px/1 var(--font-mono); color: var(--muted); margin-top: 8px; }
+.role-row p { margin-top: 10px; font-size: 15px; }
+.role-row ul { margin: 10px 0 0; padding-left: 18px; font-size: 15px; display: grid; gap: 4px; }
 
 /* recognition */
 .honors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
@@ -663,13 +663,13 @@ dialog.lb .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px));
     <div class="timing"><svg id="wave" viewBox="0 0 1100 400" role="img" aria-labelledby="wave-t"><title id="wave-t">Timeline of roles from 2023 to 2026</title></svg></div>
 
     <div class="roles">
-      <div class="r"><span class="sig">S1</span><div><h3>Embedded Systems &amp; IoT Engineer (Intern)</h3><p class="org">Kaumodaki NexusGrid · Visakhapatnam</p><p class="when">Apr 2026 – present</p>
+      <div class="role-row"><span class="sig">S1</span><div><h3>Embedded Systems &amp; IoT Engineer (Intern)</h3><p class="org">Kaumodaki NexusGrid · Visakhapatnam</p><p class="when">Apr 2026 – present</p>
         <ul><li>ESP32 and ESP32-CAM firmware: sensor acquisition, Wi-Fi and MQTT, cloud dashboards</li><li>Gas and air-quality analog front-end boards in KiCad; 4G LTE + GPS trackers; BLE load cells; health-monitoring hardware</li><li>Represented the company at IoT Summit '26 and the Future Skills Summit 2026</li></ul></div></div>
-      <div class="r"><span class="sig">S2</span><div><h3>Full Stack Python &amp; Agentic AI Intern</h3><p class="org">CSC India · APSCHE Student Internship</p><p class="when">May 2026 – Sep 2026</p><p>Python full-stack development and agentic-AI frameworks.</p></div></div>
-      <div class="r"><span class="sig">S3</span><div><h3>RTOS Intern</h3><p class="org">CSC India · APSCHE · IGIAT</p><p class="when">May 2025 – Jun 2025</p><p>Preemptive scheduling, task design, queues, semaphores, mutexes, timers and ISR handling on microcontrollers.</p></div></div>
-      <div class="r"><span class="sig">S4</span><div><h3>AI &amp; Data Analytics Intern (Skills4Future)</h3><p class="org">Edunet Foundation · AICTE · Shell India</p><p class="when">Feb 2025 – Mar 2025</p><p>AQI prediction project, selected among the Top 40 nationally.</p></div></div>
-      <div class="r"><span class="sig">S5</span><div><h3>Space &amp; AI Internship Programs</h3><p class="org">Agnirva (AICTE recognised)</p><p class="when">Jan 2025 – Jun 2025</p><p>Satellite systems and space-mission fundamentals (80 h, 440+ learning steps), then applied generative-AI tooling.</p></div></div>
-      <div class="r"><span class="sig">S6</span><div><h3>Embedded Systems &amp; IoT Developer (Industrial Training)</h3><p class="org">Centre of Excellence in Maritime &amp; Shipbuilding (CEMS)</p><p class="when">Jun 2023 – Nov 2023</p><p>Designed, built and tested 50+ real-time embedded and IoT projects on Arduino UNO and NodeMCU; circuit design, PCB development and power management.</p></div></div>
+      <div class="role-row"><span class="sig">S2</span><div><h3>Full Stack Python &amp; Agentic AI Intern</h3><p class="org">CSC India · APSCHE Student Internship</p><p class="when">May 2026 – Sep 2026</p><p>Python full-stack development and agentic-AI frameworks.</p></div></div>
+      <div class="role-row"><span class="sig">S3</span><div><h3>RTOS Intern</h3><p class="org">CSC India · APSCHE · IGIAT</p><p class="when">May 2025 – Jun 2025</p><p>Preemptive scheduling, task design, queues, semaphores, mutexes, timers and ISR handling on microcontrollers.</p></div></div>
+      <div class="role-row"><span class="sig">S4</span><div><h3>AI &amp; Data Analytics Intern (Skills4Future)</h3><p class="org">Edunet Foundation · AICTE · Shell India</p><p class="when">Feb 2025 – Mar 2025</p><p>AQI prediction project, selected among the Top 40 nationally.</p></div></div>
+      <div class="role-row"><span class="sig">S5</span><div><h3>Space &amp; AI Internship Programs</h3><p class="org">Agnirva (AICTE recognised)</p><p class="when">Jan 2025 – Jun 2025</p><p>Satellite systems and space-mission fundamentals (80 h, 440+ learning steps), then applied generative-AI tooling.</p></div></div>
+      <div class="role-row"><span class="sig">S6</span><div><h3>Embedded Systems &amp; IoT Developer (Industrial Training)</h3><p class="org">Centre of Excellence in Maritime &amp; Shipbuilding (CEMS)</p><p class="when">Jun 2023 – Nov 2023</p><p>Designed, built and tested 50+ real-time embedded and IoT projects on Arduino UNO and NodeMCU; circuit design, PCB development and power management.</p></div></div>
     </div>
   </section>
 
