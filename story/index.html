@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohan Sai Potnuru Portfolio</title>
+<meta name="description" content="Mohan Sai Potnuru: Embedded Systems & IoT Engineer. Experience, projects, leadership and photos in a scrolling story.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;700;800;900&family=Lato:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: an Adobe-Express-style story page. Sticky full-screen photo stages with dark text cards
+   gliding over them, split sections between, single dark look by design. */
+:root {
+  --bg: #2b2b2c;
+  --bg-2: #232324;
+  --card: rgba(38, 38, 40, .88);
+  --fg: #f3f2ef;
+  --muted: #c4c2bd;
+  --line: rgba(255, 255, 255, .14);
+  --amber: #f2b544;
+  --cyan: #59c7dd;
+  --font-head: "Raleway", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Lato", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--fg); font: 400 17px/1.7 var(--font-body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; line-height: 1.12; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.gut { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.kicker { font: 700 13px/1.3 var(--font-head); letter-spacing: .22em; text-transform: uppercase; color: var(--amber); }
+
+/* ---------- hero ---------- */
+.hero { display: grid; grid-template-columns: 1fr 1fr; min-height: min(92svh, 860px); }
+.hero .left { background: radial-gradient(120% 90% at 20% 20%, #3a3a3c, var(--bg-2)); display: flex; flex-direction: column; justify-content: center; gap: 22px; padding-block: 72px; }
+.hero .left > * { max-width: 560px; margin-left: auto; margin-right: clamp(16px, 5vw, 72px); width: 100%; }
+.hero h1 { font-size: clamp(48px, 7.4vw, 104px); font-weight: 900; line-height: .95; letter-spacing: -.01em; }
+.hero h1 span { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--fg); }
+@supports not (-webkit-text-stroke: 1px white) { .hero h1 span { color: var(--fg); } }
+.hero .role { font: 700 clamp(15px, 1.5vw, 19px)/1.5 var(--font-head); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.hero .right { background: #fff; position: relative; overflow: hidden; display: flex; align-items: flex-end; justify-content: center; }
+.hero .right img { width: min(100%, 560px); height: 100%; max-height: min(92svh, 860px); object-fit: cover; object-position: 50% 12%; }
+.hero .right .tag { position: absolute; left: 20px; bottom: 20px; font: 500 12px/1 var(--font-mono); color: #2b2b2c; background: #f2b544; padding: 8px 10px; border-radius: 4px; }
+.ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border-radius: 999px; font: 700 14px/1 var(--font-head); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; border: 1.5px solid var(--fg); transition: background .2s, color .2s, transform .2s; }
+.btn:hover { transform: translateY(-2px); background: var(--fg); color: var(--bg); }
+.btn.fill { background: var(--amber); border-color: var(--amber); color: #1d1d1e; }
+.btn.fill:hover { background: var(--fg); border-color: var(--fg); }
+
+/* ---------- title band ---------- */
+.band { text-align: center; padding-block: 110px 90px; }
+.band h2 { font-size: clamp(32px, 5vw, 64px); max-width: 15ch; margin: 0 auto; }
+.band p { margin: 28px auto 0; max-width: 62ch; color: var(--muted); font-size: 18px; }
+.band .dots { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 18px; margin-top: 18px; font: 500 13px/1.4 var(--font-mono); color: var(--fg); }
+.band .dots span::before { content: "◆ "; color: var(--amber); }
+
+/* ---------- split ---------- */
+.split { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; min-height: 78svh; }
+.split .txt { display: flex; flex-direction: column; justify-content: center; gap: 24px; padding-block: 80px; }
+.split .txt > * { max-width: 520px; margin-left: auto; margin-right: clamp(16px, 6vw, 96px); width: 100%; }
+.split h2 { font-size: clamp(36px, 4.6vw, 60px); }
+.split p.it { font-style: italic; color: var(--muted); font-size: 18px; line-height: 1.85; }
+.split .pic { position: relative; overflow: hidden; min-height: 420px; }
+.split .pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.split .pic figcaption { position: absolute; right: 16px; bottom: 16px; font: 500 12px/1.3 var(--font-mono); background: rgba(20,20,22,.75); padding: 7px 10px; border-radius: 4px; }
+.split.rev .txt { order: 2; }
+.split.rev .txt > * { margin-left: clamp(16px, 6vw, 96px); margin-right: auto; }
+
+/* ---------- glideshow ---------- */
+.glide { position: relative; }
+.stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #111; }
+.layer { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .9s ease; }
+.layer.on { opacity: 1; }
+.layer .blur { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); max-width: none; object-fit: cover; filter: blur(26px) brightness(.45) saturate(1.2); }
+.layer .sharp { position: absolute; right: 5vw; top: 50%; translate: 0 -50%; max-height: 82svh; max-width: 52vw; width: auto; height: auto; border-radius: 6px; box-shadow: 0 40px 80px -20px #000c; }
+.layer .art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.layer figcaption { position: absolute; right: 5vw; bottom: 22px; font: 500 12px/1.3 var(--font-mono); color: #ddd; background: rgba(0,0,0,.55); padding: 7px 10px; border-radius: 4px; }
+.cards { position: relative; margin-top: -100svh; z-index: 2; }
+.slot { min-height: 100svh; display: flex; align-items: center; }
+.slot:first-child { min-height: 100svh; }
+.card { width: min(560px, 100%); background: var(--card); backdrop-filter: blur(6px); padding: 44px 40px; margin-left: clamp(0px, 4vw, 64px); display: flex; flex-direction: column; gap: 16px; }
+.card h2 { font-size: clamp(30px, 3.4vw, 44px); }
+.card h3 { font-size: clamp(24px, 2.6vw, 34px); }
+.card .meta { font: 500 13px/1.5 var(--font-mono); color: var(--amber); }
+.card p { color: var(--muted); }
+.card ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); }
+.card ul b { color: var(--fg); font-weight: 700; }
+.card .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.card .chips span { font: 500 12px/1 var(--font-mono); padding: 7px 9px; border: 1px solid var(--line); border-radius: 4px; color: var(--fg); }
+.card .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 4px; }
+.card .stats div { border-top: 2px solid var(--amber); padding-top: 8px; }
+.card .stats b { display: block; font: 800 24px/1.1 var(--font-head); color: var(--fg); font-variant-numeric: tabular-nums; }
+.card .stats small { font-size: 12.5px; color: var(--muted); line-height: 1.3; display: block; }
+.card a.more { align-self: flex-start; font: 700 13px/1 var(--font-head); letter-spacing: .1em; text-transform: uppercase; color: var(--amber); text-decoration: none; border-bottom: 1.5px solid currentColor; padding-bottom: 4px; }
+.intro-card { background: transparent; backdrop-filter: none; }
+.intro-card h2 { font-size: clamp(44px, 7vw, 92px); text-shadow: 0 4px 30px #000a; }
+.intro-card p { color: var(--fg); font-size: 18px; text-shadow: 0 2px 12px #000c; }
+
+/* ---------- lists on plain bands ---------- */
+.sect { padding-block: 100px; max-width: 1160px; margin: 0 auto; }
+.sect > h2 { font-size: clamp(34px, 4.6vw, 58px); margin-bottom: 40px; }
+.sect > h2 small { display: block; margin-bottom: 14px; }
+.roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.role-i { padding-block: 22px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.role-i h3 { font-size: 20px; text-transform: none; letter-spacing: 0; font-weight: 800; }
+.role-i .meta { font: 500 12.5px/1.4 var(--font-mono); color: var(--amber); }
+.role-i p { color: var(--muted); font-size: 16px; }
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 40px; }
+.skills h3 { font-size: 15px; letter-spacing: .14em; color: var(--amber); margin-bottom: 12px; }
+.skills .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.skills .chips span { font: 500 13px/1 var(--font-mono); padding: 8px 10px; background: rgba(255,255,255,.06); border-radius: 4px; }
+.certs { margin-top: 64px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; list-style: none; padding: 0; }
+.certs li { display: flex; justify-content: space-between; gap: 16px; padding-block: 14px; border-top: 1px solid var(--line); }
+.certs b { font-weight: 700; }
+.certs span { display: block; color: var(--muted); font-size: 14.5px; }
+.certs time { font: 500 12.5px/1.8 var(--font-mono); color: var(--amber); white-space: nowrap; }
+.edu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.edu div { padding: 30px; background: var(--bg-2); border-left: 4px solid var(--amber); }
+.edu b { display: block; font: 800 21px/1.25 var(--font-head); }
+.edu span { display: block; margin-top: 8px; color: var(--muted); }
+.edu em { display: block; margin-top: 10px; font: 500 13px/1 var(--font-mono); font-style: normal; color: var(--amber); }
+
+/* gallery */
+.gallery { columns: 3 280px; column-gap: 12px; }
+.gallery button { all: unset; display: block; width: 100%; margin-bottom: 12px; break-inside: avoid; cursor: zoom-in; position: relative; overflow: hidden; border-radius: 4px; }
+.gallery img { width: 100%; height: auto; transition: transform .5s; }
+.gallery button:hover img { transform: scale(1.04); }
+.gallery button:focus-visible { outline: 3px solid var(--amber); outline-offset: -3px; }
+dialog { border: 0; padding: 0; background: transparent; max-width: min(1000px, 94vw); }
+dialog::backdrop { background: rgba(10,10,12,.92); }
+dialog img { max-height: 82svh; width: auto; margin: 0 auto; }
+dialog p { text-align: center; color: var(--fg); margin-top: 10px; font-size: 15px; }
+dialog .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); right: calc(14px + env(safe-area-inset-right, 0px)); width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font-size: 22px; cursor: pointer; }
+
+/* contact */
+.contact { text-align: center; padding-block: 120px 60px; background: radial-gradient(80% 120% at 50% 0%, #3a3a3c, var(--bg)); }
+.contact h2 { font-size: clamp(34px, 5vw, 64px); max-width: 16ch; margin: 0 auto; }
+.contact p { margin: 22px auto 30px; max-width: 56ch; color: var(--muted); }
+.contact .ctas { justify-content: center; }
+.foot { margin-top: 80px; font: 500 12px/1.5 var(--font-mono); color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .layer { transition: none; } .btn, .gallery img { transition: none; } }
+
+@media (max-width: 860px) {
+  .hero, .split { grid-template-columns: 1fr; }
+  .hero .right { min-height: 70svh; order: -1; }
+  .hero .left > *, .split .txt > *, .split.rev .txt > * { margin-left: 0; margin-right: 0; max-width: none; }
+  .split .txt, .split.rev .txt { order: 0; padding-block: 64px; }
+  .split .pic { min-height: 60svh; }
+  .layer .sharp { right: 50%; translate: 50% 0; top: 16px; max-width: calc(100% - 32px); max-height: 46svh; }
+  .layer figcaption { display: none; }
+  .slot { align-items: flex-end; padding-bottom: 32px; }
+  .card { margin-left: 0; padding: 30px 22px; }
+  .intro-card { padding-bottom: 20svh; }
+  .roles, .certs, .edu { grid-template-columns: 1fr; }
+  .skills { grid-template-columns: 1fr 1fr; }
+  .band { padding-block: 80px 64px; }
+}
+@media (max-width: 520px) {
+  .skills { grid-template-columns: 1fr; }
+  .card .stats b { font-size: 20px; }
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mohan Sai Potnuru | Embedded Systems &amp; IoT Engineer">
+<meta property="og:description" content="Experience, projects, leadership and photos: embedded systems, RTOS, IoT and RISC-V VLSI.">
+<meta property="og:url" content="https://mohansaipotnuru.github.io/story/">
+<meta property="og:image" content="https://mohansaipotnuru.github.io/story/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mohansaipotnuru.github.io/story/">
+<style>html,body{margin:0} [hidden]{display:none!important}</style>
+</head>
+<body>
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="left gut">
+    <p class="kicker">Portfolio · 2026</p>
+    <h1>Mohan Sai <span>Potnuru</span></h1>
+    <p class="role">Embedded Systems &amp; IoT Engineer · RTOS · RISC-V VLSI</p>
+    <div class="ctas">
+      <a class="btn fill" href="#experience">Start the story</a>
+      <a class="btn" href="https://www.linkedin.com/in/mohan-sai-potnuru-0b274a299/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/MohansaiPotnuru" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+  <div class="right">
+    <img src="img/portrait.jpg" alt="Mohan Sai Potnuru smiling, wearing a black polo shirt" width="1190" height="1323">
+    <span class="tag">Visakhapatnam, India</span>
+  </div>
+</header>
+
+<!-- ============ TITLE BAND ============ -->
+<section class="band gut">
+  <h2>Electronics &amp; Communication Engineer</h2>
+  <p>B.Tech ECE student and Embedded Systems &amp; IoT Engineer at Kaumodaki NexusGrid. I build firmware, real-time systems, connected devices and silicon, and I document everything well enough that someone else can rebuild it.</p>
+  <div class="dots"><span>Embedded C</span><span>FreeRTOS</span><span>STM32</span><span>ESP32</span><span>IoT · MQTT</span><span>RISC-V SoC</span><span>KiCad</span></div>
+</section>
+
+<!-- ============ INTRODUCTION (split) ============ -->
+<section class="split">
+  <div class="txt gut">
+    <p class="kicker">About me</p>
+    <h2>Introduction</h2>
+    <p class="it">I am an Electronics and Communication Engineering student at Dr. Lankapalli Bullayya College of Engineering (2024–2027) with a Diploma in ECE (82%). I take ideas from the transistor to the cloud: register-level STM32 firmware, analysed FreeRTOS task sets, connected ESP32 IoT devices and a RISC-V SoC hardened to GDSII on SkyWater 130 nm.</p>
+    <p class="it">I lead the IETE Student Forum as Chairperson, served as Lead Support for NASA Space Apps Visakhapatnam in 2025 and 2026, and teach EV technology as a workshop resource person.</p>
+  </div>
+  <figure class="pic" style="margin:0">
+    <img src="img/iot-summit-booth.jpg" alt="Mohan Sai at a sponsor booth at IoT Summit 2026" width="480" height="480" loading="lazy">
+    <figcaption>IoT Summit '26 · sponsor delegate</figcaption>
+  </figure>
+</section>
+
+<!-- ============ GLIDE 1: EXPERIENCE ============ -->
+<section class="glide" id="experience" aria-label="Experience">
+  <div class="stage" aria-hidden="true">
+    <figure class="layer on"><img class="blur" src="img/iot-summit-team.jpg" alt=""><img class="sharp" src="img/iot-summit-team.jpg" alt="" width="480" height="360"><figcaption>Team Kaumodaki NexusGrid at IoT Summit '26</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/iot-summit-team.jpg" alt=""><img class="sharp" src="img/iot-summit-team.jpg" alt="" width="480" height="360"><figcaption>Team Kaumodaki NexusGrid</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/iot-summit-demo.jpg" alt=""><img class="sharp" src="img/iot-summit-demo.jpg" alt="" width="480" height="360"><figcaption>Live demos at the Kaumodaki Labs stall</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/future-skills-summit.jpg" alt=""><img class="sharp" src="img/future-skills-summit.jpg" alt="" width="480" height="247"><figcaption>Future Skills Summit &amp; Awards 2026, T-Works Hyderabad</figcaption></figure>
+  </div>
+  <div class="cards">
+    <div class="slot gut"><div class="card intro-card"><p class="kicker">Chapter 1</p><h2>Experience</h2><p>Where I've worked, built and represented my team.</p></div></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">Apr 2026 – present · Visakhapatnam</p>
+      <h3>Embedded Systems &amp; IoT Engineer</h3>
+      <p><b style="color:var(--fg)">Kaumodaki NexusGrid</b></p>
+      <ul>
+        <li>ESP32 and ESP32-CAM firmware: sensor acquisition, Wi-Fi and MQTT, cloud dashboards</li>
+        <li>Gas and air-quality analog front-end boards in KiCad</li>
+        <li>4G LTE + GPS trackers, BLE load cells and health-monitoring hardware</li>
+      </ul>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">17 Sep 2026 · VMRDA Children Arena</p>
+      <h3>IoT Summit '26</h3>
+      <p>Sponsor delegate for Kaumodaki NexusGrid. I ran live embedded and IoT demos at the Kaumodaki Labs stall for students and industry visitors.</p>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">2026 · T-Works Hyderabad</p>
+      <h3>Future Skills Summit &amp; Awards</h3>
+      <p>Showcased the company's products with the NexusGrid team and spoke with visitors about Industry 4.0 / 5.0 skill development.</p>
+    </article></div>
+  </div>
+</section>
+
+<!-- ============ INTERNSHIPS (plain) ============ -->
+<section class="sect gut" aria-label="Internships and training">
+  <h2><small class="kicker">Internships &amp; training</small>Learning on real projects</h2>
+  <div class="roles">
+    <div class="role-i"><span class="meta">May 2026 – Sep 2026</span><h3>Full Stack Python &amp; Agentic AI Intern</h3><p>CSC India · APSCHE Student Internship. Python full-stack development and agentic-AI frameworks.</p></div>
+    <div class="role-i"><span class="meta">May 2025 – Jun 2025</span><h3>RTOS Intern</h3><p>CSC India · APSCHE · IGIAT. Preemptive scheduling, queues, semaphores, mutexes, timers and ISR handling on microcontrollers.</p></div>
+    <div class="role-i"><span class="meta">Feb 2025 – Mar 2025</span><h3>AI &amp; Data Analytics Intern (Skills4Future)</h3><p>Edunet Foundation · AICTE · Shell India. AQI prediction project, selected in the Top 40 nationally.</p></div>
+    <div class="role-i"><span class="meta">Jan 2025 – Jun 2025</span><h3>Space &amp; AI Internship Programs</h3><p>Agnirva (AICTE recognised). Satellite systems and space-mission fundamentals, 80 hours and 440+ learning steps.</p></div>
+    <div class="role-i"><span class="meta">Jun 2023 – Nov 2023</span><h3>Embedded Systems &amp; IoT Developer</h3><p>Centre of Excellence in Maritime &amp; Shipbuilding (CEMS). Designed, built and tested 50+ embedded and IoT projects on Arduino UNO and NodeMCU.</p></div>
+  </div>
+</section>
+
+<!-- ============ GLIDE 2: PROJECTS ============ -->
+<section class="glide" id="projects" aria-label="Projects">
+  <div class="stage" aria-hidden="true">
+    <figure class="layer on"><svg class="art" data-art="riscv"></svg></figure>
+    <figure class="layer"><svg class="art" data-art="rtos"></svg></figure>
+    <figure class="layer"><svg class="art" data-art="riscv"></svg></figure>
+    <figure class="layer"><svg class="art" data-art="pulse"></svg></figure>
+    <figure class="layer"><img class="blur" src="img/dre-certificate.jpg" alt=""><img class="sharp" src="img/dre-certificate.jpg" alt="" width="480" height="339"><figcaption>DRE Enterprise Hackathon '26 · Top 6 certificate</figcaption></figure>
+    <figure class="layer"><svg class="art" data-art="mesh"></svg></figure>
+    <figure class="layer"><svg class="art" data-art="aqi"></svg></figure>
+    <figure class="layer"><svg class="art" data-art="solar"></svg></figure>
+  </div>
+  <div class="cards">
+    <div class="slot gut"><div class="card intro-card"><p class="kicker">Chapter 2</p><h2>Projects</h2><p>Measured, tested, documented and reproducible.</p></div></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">FreeRTOS V11 · STM32F401 · Flagship</p>
+      <h3>RTOS Condition Monitor</h3>
+      <p>A condition-monitoring node written like production firmware: 100 Hz sampling, 1 s AC-RMS, hysteresis alarms and CRC-protected telemetry. Response-time analysis runs at boot.</p>
+      <div class="stats"><div><b>0 B</b><small>heap, fully static</small></div><div><b>24,433</b><small>unit-test checks</small></div><div><b>14.08%</b><small>CPU utilisation</small></div></div>
+      <a class="more" href="https://github.com/MohansaiPotnuru/rtos-condition-monitor" target="_blank" rel="noopener">View on GitHub</a>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">ASIC · SkyWater 130 nm · RTL → GDSII</p>
+      <h3>32-bit RISC-V SoC</h3>
+      <p>PicoRV32 core with a boot ROM and a custom UART, hardened with LibreLane / OpenROAD. Zero DRC, LVS-clean, timing clean on every corner.</p>
+      <div class="stats"><div><b>9 / 9</b><small>signoff corners</small></div><div><b>+7.26 ns</b><small>worst setup slack</small></div><div><b>13,481</b><small>standard cells</small></div></div>
+      <a class="more" href="https://github.com/MohansaiPotnuru/riscv-uart-sky130-soc" target="_blank" rel="noopener">View on GitHub</a>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">Bare metal · Cortex-M4</p>
+      <h3>IRSense: IR Counter &amp; Conveyor Monitor</h3>
+      <p>Turns a cheap IR sensor into a measurement instrument: µs timestamps from TIM2, JAM / RATE / INTRUSION alarms, wear-levelled flash config and a 21-command CLI.</p>
+      <div class="chips"><span>C</span><span>STM32</span><span>45 unit tests</span><span>v1.0.0</span></div>
+      <a class="more" href="https://github.com/MohansaiPotnuru/IRSense-NUCLEO-F401RE" target="_blank" rel="noopener">View on GitHub</a>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">ESP32 · Offline-first · Top 6 + prize</p>
+      <h3>DRE-MachGuard</h3>
+      <p>Machinery fault monitor for remote sites with no internet, built by Team INVENTORS at the DRE Enterprise Hackathon '26. Temperature, voltage, current and vibration monitoring with on-device diagnostics, OLED and LED alerts.</p>
+      <div class="chips"><span>ESP32</span><span>DS18B20</span><span>Condition monitoring</span></div>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">ESP32 · MQTT · Web dashboard</p>
+      <h3>Smart Home Automation</h3>
+      <p>Non-blocking firmware with a rule engine: environment and gas sensing, RFID lock with roles, PZEM-004T energy metering, MQTT and a web dashboard. Manual buttons keep working when Wi-Fi is down.</p>
+      <a class="more" href="https://github.com/MohansaiPotnuru/SmartHomeAutomation" target="_blank" rel="noopener">View on GitHub</a>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">ML · AICTE × Shell · Top 40 nationally</p>
+      <h3>AQI Prediction, 26 Indian Cities</h3>
+      <p>Daily Air Quality Index prediction (2015–2020) with leakage-free scikit-learn pipelines and five models compared. Random Forest reached a test R² of 0.91.</p>
+      <a class="more" href="https://github.com/MohansaiPotnuru/Air-Quality-Prediction-by-AICTE" target="_blank" rel="noopener">View on GitHub</a>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">Diploma final year · Team lead</p>
+      <h3>Solar-Powered EV Charging Station</h3>
+      <p>Circuit design, energy management and renewable-energy integration for EV charging. It grew into teaching EV batteries, BMS, motors and charging as a workshop resource person.</p>
+    </article></div>
+  </div>
+</section>
+
+<!-- ============ GLIDE 3: LEADERSHIP ============ -->
+<section class="glide" id="leadership" aria-label="Leadership and achievements">
+  <div class="stage" aria-hidden="true">
+    <figure class="layer on"><img class="blur" src="img/nasa-space-apps.jpg" alt=""><img class="sharp" src="img/nasa-space-apps.jpg" alt="" width="358" height="508"><figcaption>NASA Space Apps Challenge 2026</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/nasa-space-apps.jpg" alt=""><img class="sharp" src="img/nasa-space-apps.jpg" alt="" width="358" height="508"><figcaption>NASA Space Apps Challenge 2026, Visakhapatnam</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/dre-certificate.jpg" alt=""><img class="sharp" src="img/dre-certificate.jpg" alt="" width="480" height="339"><figcaption>DRE Enterprise Hackathon '26</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/ev-workshop-felicitation.jpg" alt=""><img class="sharp" src="img/ev-workshop-felicitation.jpg" alt="" width="480" height="330"><figcaption>EV Technology workshop, DIET</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/giet-fdp.jpg" alt=""><img class="sharp" src="img/giet-fdp.jpg" alt="" width="480" height="360"><figcaption>FDP at GIET University</figcaption></figure>
+    <figure class="layer"><img class="blur" src="img/iot-summit-stage.jpg" alt=""><img class="sharp" src="img/iot-summit-stage.jpg" alt="" width="480" height="270"><figcaption>IoT Summit '26 on stage</figcaption></figure>
+  </div>
+  <div class="cards">
+    <div class="slot gut"><div class="card intro-card"><p class="kicker">Chapter 3</p><h2>Leadership &amp; Achievements</h2><p>Leading teams, teaching, and competing.</p></div></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">2025 &amp; 2026 · Visakhapatnam</p>
+      <h3>Lead Support, NASA Space Apps</h3>
+      <p>Two years as Lead Support for the NASA International Space Apps Challenge local event, after serving as Student Coordinator.</p>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">Oct 2026</p>
+      <h3>Top 6 Finalist + Prize</h3>
+      <p>DRE Enterprise Hackathon '26 with DRE-MachGuard (Team INVENTORS), an offline fault monitor for machinery at remote sites.</p>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">7–9 Sep 2026 · DIET with APSSDC</p>
+      <h3>Resource Person, EV Technology</h3>
+      <p>Three-day workshop on EV batteries, BMS, motors and controllers, AC/DC charging and diagnostics.</p>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">22–24 Jun 2026 · GIET University</p>
+      <h3>Industry–Academia FDP</h3>
+      <p>Faculty Development Programme with BSNL, supported by Kaumodaki NexusGrid: automation, Digital Twin, Industry 4.0 and Private 5G.</p>
+    </article></div>
+    <div class="slot gut"><article class="card">
+      <p class="meta">More recognition</p>
+      <h3>Leadership &amp; Honours</h3>
+      <ul>
+        <li><b>Chairperson</b>, IETE Student Forum, DLBCE</li>
+        <li><b>Main Student Coordinator</b>, Technotsav ECE fest</li>
+        <li><b>Top 40 nationally</b>, AICTE × Shell Skills4Future (2025)</li>
+        <li><b>Stage II</b>, Viksit Bharat Young Leaders Dialogue (2026)</li>
+        <li><b>NPTEL Elite</b>, Sensors and Actuators (2026)</li>
+        <li><b>Digital Transformation Fellow</b>, DX-EDGE</li>
+      </ul>
+    </article></div>
+  </div>
+</section>
+
+<!-- ============ EDUCATION ============ -->
+<section class="sect gut" id="education">
+  <h2><small class="kicker">Education</small>Where I studied</h2>
+  <div class="edu">
+    <div><b>B.Tech, Electronics &amp; Communication Engineering</b><span>Dr. Lankapalli Bullayya College of Engineering, Visakhapatnam</span><em>2024 – 2027</em></div>
+    <div><b>Diploma, Electronics &amp; Communication Engineering</b><span>Sanketika Polytechnic College · SBTET Andhra Pradesh · 82%</span><em>Completed 2023</em></div>
+  </div>
+</section>
+
+<!-- ============ SKILLS + CERTS ============ -->
+<section class="sect gut" id="skills" style="padding-top:0">
+  <h2><small class="kicker">Technical skills</small>Toolbox</h2>
+  <div class="skills">
+    <div><h3>Languages</h3><div class="chips"><span>C (C11)</span><span>Embedded C</span><span>C++</span><span>Python</span><span>Verilog</span><span>ARM asm</span></div></div>
+    <div><h3>Hardware</h3><div class="chips"><span>STM32</span><span>ESP32 / ESP32-CAM</span><span>Arduino</span><span>NodeMCU</span><span>SAMA5D2</span><span>Raspberry Pi</span></div></div>
+    <div><h3>Real-time &amp; OS</h3><div class="chips"><span>FreeRTOS</span><span>Bare metal / CMSIS</span><span>Response-time analysis</span><span>Yocto Linux</span></div></div>
+    <div><h3>Protocols</h3><div class="chips"><span>UART</span><span>SPI</span><span>I²C</span><span>1-Wire</span><span>MQTT</span><span>Wi-Fi</span><span>BLE</span><span>4G LTE / GPS</span></div></div>
+    <div><h3>EDA &amp; VLSI</h3><div class="chips"><span>KiCad</span><span>Yosys</span><span>OpenROAD</span><span>LibreLane</span><span>Magic</span><span>KLayout</span><span>SKY130</span></div></div>
+    <div><h3>Quality &amp; tools</h3><div class="chips"><span>Unit testing</span><span>ASan / UBSan</span><span>QEMU</span><span>GitHub Actions</span><span>STM32CubeIDE</span><span>scikit-learn</span></div></div>
+  </div>
+  <ul class="certs">
+    <li><div><b>Sensors and Actuators (Elite)</b><span>NPTEL</span></div><time>2026</time></li>
+    <li><div><b>Applied Machine Learning &amp; AI</b><span>CII · INDIAai</span></div><time>2026</time></li>
+    <li><div><b>Digital Maturity Diagnostic Framework</b><span>CII · NITI Aayog · AICTE</span></div><time>2026</time></li>
+    <li><div><b>MongoDB Basics for Students</b><span>MongoDB</span></div><time>2026</time></li>
+    <li><div><b>Introduction to IoT · IoT &amp; Digital Transformation</b><span>Cisco Networking Academy</span></div><time>2025</time></li>
+    <li><div><b>Essentials Automation Certification</b><span>Automation Anywhere</span></div><time>2025</time></li>
+  </ul>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="sect gut" id="gallery">
+  <h2><small class="kicker">Gallery</small>Moments from LinkedIn</h2>
+  <div class="gallery" id="gal">
+    <button type="button"><img src="img/nasa-space-apps.jpg" alt="NASA Space Apps Challenge 2026 poster introducing P. Mohan Sai as Lead Support" loading="lazy" width="358" height="508"></button>
+    <button type="button"><img src="img/iot-summit-booth.jpg" alt="At a sponsor booth at IoT Summit 2026" loading="lazy" width="480" height="480"></button>
+    <button type="button"><img src="img/dre-certificate.jpg" alt="DRE Enterprise Hackathon 2026 Top 6 Finalist certificate" loading="lazy" width="480" height="339"></button>
+    <button type="button"><img src="img/iot-summit-demo.jpg" alt="Hardware demo for students at the Kaumodaki Labs stall" loading="lazy" width="480" height="360"></button>
+    <button type="button"><img src="img/ev-workshop-felicitation.jpg" alt="Felicitated as resource person at the EV Technology workshop" loading="lazy" width="480" height="330"></button>
+    <button type="button"><img src="img/iot-summit-team.jpg" alt="Kaumodaki NexusGrid team at IoT Summit" loading="lazy" width="480" height="360"></button>
+    <button type="button"><img src="img/giet-fdp.jpg" alt="Faculty Development Programme banner at GIET University" loading="lazy" width="480" height="360"></button>
+    <button type="button"><img src="img/future-skills-summit.jpg" alt="Future Skills Summit and Awards 2026 stall" loading="lazy" width="480" height="247"></button>
+    <button type="button"><img src="img/iot-summit-stage.jpg" alt="On stage at IoT Summit 2026" loading="lazy" width="480" height="270"></button>
+    <button type="button"><img src="img/ev-workshop-group.jpg" alt="EV Technology workshop group at DIET" loading="lazy" width="480" height="218"></button>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<footer class="contact gut" id="contact">
+  <p class="kicker">Let's connect</p>
+  <h2 style="margin-top:16px">Let's build something that works on real hardware</h2>
+  <p>Open to embedded firmware, RTOS, IoT and VLSI roles and collaborations. The fastest way to reach me is LinkedIn.</p>
+  <div class="ctas">
+    <a class="btn fill" href="https://www.linkedin.com/in/mohan-sai-potnuru-0b274a299/" target="_blank" rel="noopener">Message me on LinkedIn</a>
+    <a class="btn" href="https://github.com/MohansaiPotnuru" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://mohansaipotnuru.github.io/" target="_blank" rel="noopener">Engineering site</a>
+  </div>
+  <p class="foot">© 2026 Mohan Sai Potnuru · Visakhapatnam, India</p>
+</footer>
+
+<dialog id="lb" aria-label="Enlarged photo"><button class="x" type="button" aria-label="Close">×</button><img id="lb-i" alt=""><p id="lb-c"></p></dialog>
+
+<script>
+(function () {
+  var NS = 'http://www.w3.org/2000/svg';
+  // seeded random so the art is the same on every load
+  function rng(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+  var W = 1600, H = 900, A = '#f2b544', C = '#59c7dd', G = '#3a3a3d';
+  function base(svg) { svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H); svg.setAttribute('preserveAspectRatio', 'xMidYMid slice'); return '<rect width="1600" height="900" fill="#151517"/>'; }
+  var art = {
+    riscv: function () { // standard-cell rows with three macros
+      var r = rng(7), s = '', y, x, w;
+      for (y = 40; y < H - 30; y += 22) { x = 600; while (x < W - 40) { w = 6 + r() * 26; s += '<rect x="' + x.toFixed(1) + '" y="' + y + '" width="' + w.toFixed(1) + '" height="16" fill="' + (r() < .08 ? A : r() < .2 ? C : G) + '" fill-opacity="' + (.35 + r() * .5).toFixed(2) + '"/>'; x += w + 2; } }
+      [[700, 120, 360, 300, 'PicoRV32 · RV32I'], [1120, 140, 240, 170, 'BOOT ROM'], [1120, 380, 240, 160, 'UART 8N1']].forEach(function (m) {
+        s += '<rect x="' + m[0] + '" y="' + m[1] + '" width="' + m[2] + '" height="' + m[3] + '" fill="#151517" stroke="' + A + '" stroke-width="3"/><text x="' + (m[0] + 16) + '" y="' + (m[1] + 36) + '" fill="' + A + '" font-family="JetBrains Mono, monospace" font-size="22">' + m[4] + '</text>';
+      });
+      return s + '<rect x="590" y="30" width="980" height="840" fill="none" stroke="#777" stroke-width="2" stroke-dasharray="8 8"/>';
+    },
+    rtos: function () { // gantt of the task set
+      var tasks = [['tmr_svc', [[0, 20]]], ['supervisor', [[20, 320]]], ['sensor', [[320, 470], [10000, 10150]]], ['process', [[470, 620], [10150, 10300]]], ['telemetry', [[620, 1620]]], ['cli', [[1620, 6620]]]];
+      var s = '', x0 = 820, x1 = 1540, sc = function (t) { return x0 + t / 12000 * (x1 - x0); };
+      for (var t = 0; t <= 12000; t += 2000) s += '<line x1="' + sc(t) + '" x2="' + sc(t) + '" y1="150" y2="780" stroke="#333"/><text x="' + sc(t) + '" y="815" fill="#888" font-family="JetBrains Mono, monospace" font-size="18" text-anchor="middle">' + t / 1000 + ' ms</text>';
+      tasks.forEach(function (k, i) {
+        var y = 170 + i * 100;
+        s += '<text x="' + (x0 - 20) + '" y="' + (y + 40) + '" fill="#bbb" font-family="JetBrains Mono, monospace" font-size="22" text-anchor="end">' + k[0] + '</text>';
+        k[1].forEach(function (b) { s += '<rect x="' + sc(b[0]) + '" y="' + y + '" width="' + Math.max(6, sc(b[1]) - sc(b[0])) + '" height="56" rx="4" fill="' + (i % 2 ? C : A) + '"/>'; });
+      });
+      return s;
+    },
+    pulse: function () { // IR edge timing
+      var s = '', r = rng(3);
+      for (var row = 0; row < 6; row++) {
+        var y = 150 + row * 115, x = 640, d = 'M600 ' + (y + 60), hi = false;
+        while (x < W - 40) { var w = 30 + r() * 120; d += ' H' + x.toFixed(0) + ' V' + (hi ? y + 60 : y); hi = !hi; x += w; }
+        s += '<path d="' + d + '" fill="none" stroke="' + (row % 2 ? C : A) + '" stroke-width="4" stroke-linejoin="round" opacity="' + (.45 + row * .1) + '"/>';
+      }
+      return s + '<text x="640" y="840" fill="#888" font-family="JetBrains Mono, monospace" font-size="22">TIM2 capture · µs timestamps · JAM / RATE / INTRUSION</text>';
+    },
+    mesh: function () { // ESP32 hub and sensors
+      var hub = [1150, 450], s = '', nodes = ['BME280', 'BH1750', 'MQ-2', 'PIR', 'RFID', 'PZEM-004T', 'Relay', 'MQTT', 'Web UI'];
+      nodes.forEach(function (n, i) {
+        var a = i / nodes.length * Math.PI * 2, x = hub[0] + Math.cos(a) * 330, y = hub[1] + Math.sin(a) * 300;
+        s += '<line x1="' + hub[0] + '" y1="' + hub[1] + '" x2="' + x.toFixed(0) + '" y2="' + y.toFixed(0) + '" stroke="' + C + '" stroke-opacity=".5" stroke-width="3" stroke-dasharray="10 8"/>';
+        s += '<circle cx="' + x.toFixed(0) + '" cy="' + y.toFixed(0) + '" r="46" fill="#1e1e21" stroke="' + C + '" stroke-width="3"/><text x="' + x.toFixed(0) + '" y="' + (y + 7).toFixed(0) + '" fill="#ddd" font-family="JetBrains Mono, monospace" font-size="17" text-anchor="middle">' + n + '</text>';
+      });
+      return s + '<rect x="' + (hub[0] - 95) + '" y="' + (hub[1] - 55) + '" width="190" height="110" rx="10" fill="#151517" stroke="' + A + '" stroke-width="4"/><text x="' + hub[0] + '" y="' + (hub[1] + 10) + '" fill="' + A + '" font-family="JetBrains Mono, monospace" font-size="30" text-anchor="middle">ESP32</text>';
+    },
+    aqi: function () { // AQI series
+      var s = '', r = rng(11);
+      for (var gy = 150; gy <= 750; gy += 100) s += '<line x1="640" x2="1560" y1="' + gy + '" y2="' + gy + '" stroke="#2c2c2f"/>';
+      [[A, 0], [C, 1], ['#8d8d93', 2]].forEach(function (c) {
+        var d = '', v = 450 + c[1] * 60;
+        for (var x = 640; x <= 1560; x += 23) { v += (r() - .5) * 70 + Math.sin(x / 90 + c[1]) * 12; v = Math.max(170, Math.min(740, v)); d += (d ? ' L' : 'M') + x + ' ' + v.toFixed(0); }
+        s += '<path d="' + d + '" fill="none" stroke="' + c[0] + '" stroke-width="' + (c[1] ? 3 : 4.5) + '" stroke-opacity="' + (c[1] === 2 ? .6 : 1) + '"/>';
+      });
+      return s + '<text x="640" y="820" fill="#888" font-family="JetBrains Mono, monospace" font-size="22">Daily AQI · 26 cities · Random Forest R² 0.91</text>';
+    },
+    solar: function () { // PV array and charge bolt
+      var s = '';
+      for (var row = 0; row < 4; row++) for (var col = 0; col < 6; col++) s += '<rect x="' + (680 + col * 120) + '" y="' + (200 + row * 90) + '" width="112" height="82" fill="#1c2a3a" stroke="' + C + '" stroke-opacity=".6" stroke-width="2"/>';
+      s += '<circle cx="1420" cy="190" r="70" fill="' + A + '" fill-opacity=".9"/>';
+      return s + '<path d="M1380 520 L1310 660 L1370 660 L1330 780 L1450 610 L1385 610 L1430 520 Z" fill="' + A + '"/><text x="680" y="640" fill="#888" font-family="JetBrains Mono, monospace" font-size="22">Solar PV → MPPT → battery → EV charger</text>';
+    }
+  };
+  document.querySelectorAll('svg.art').forEach(function (svg) {
+    var k = svg.getAttribute('data-art');
+    svg.innerHTML = base(svg) + art[k]() + '<rect width="1600" height="900" fill="url(#fade' + k + ')"/>' +
+      '<defs><linearGradient id="fade' + k + '" x1="0" x2="1"><stop offset="0" stop-color="#151517"/><stop offset=".45" stop-color="#151517" stop-opacity=".2"/><stop offset="1" stop-color="#151517" stop-opacity="0"/></linearGradient></defs>';
+  });
+
+  // glideshow: the slot in the middle of the screen picks the visible layer
+  document.querySelectorAll('.glide').forEach(function (g) {
+    var layers = g.querySelectorAll('.layer'), slots = g.querySelectorAll('.slot');
+    if (!('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var i = Array.prototype.indexOf.call(slots, e.target);
+        layers.forEach(function (l, j) { l.classList.toggle('on', j === i); });
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    slots.forEach(function (s) { io.observe(s); });
+  });
+
+  // lightbox
+  var lb = document.getElementById('lb'), li = document.getElementById('lb-i'), lc = document.getElementById('lb-c');
+  document.querySelectorAll('#gal button').forEach(function (b) {
+    b.addEventListener('click', function () { var im = b.querySelector('img'); li.src = im.src; li.alt = im.alt; lc.textContent = im.alt; if (lb.showModal) lb.showModal(); });
+  });
+  lb.querySelector('.x').addEventListener('click', function () { lb.close(); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+})();
+</script>
+</body>
+</html>

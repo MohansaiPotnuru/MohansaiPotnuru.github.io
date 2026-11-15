@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohan Sai Potnuru</title>
+<meta name="description" content="Mohan Sai Potnuru: embedded systems, RTOS, IoT and RISC-V physical design. Projects, experience, recognition and field photos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: the portfolio is written as a component datasheet. Page 1 = name + IC package with the portrait as the die,
+   then features / characteristics / block diagram / application examples / timing diagram / ordering info.
+   Field photos sit on a full-bleed solder-mask band. */
+:root {
+  --paper: #f4f6f9;
+  --sheet: #ffffff;
+  --ink: #0d1626;
+  --muted: #4d596b;
+  --line: #d3dae4;
+  --gold: #8a5f0c;        /* text-safe ENIG gold */
+  --pad: #c99530;         /* marks, pins, rules */
+  --mask: #0f2d4c;        /* solder-mask band */
+  --on-mask: #e8eef6;
+  --on-mask-muted: #a9b9cc;
+  --signal: #1f6fb2;
+  --font-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --wrap: 1180px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #09111c; --sheet: #0e1828; --ink: #e5ebf3; --muted: #9ba8ba; --line: #22324a;
+    --gold: #e3b75c; --pad: #d9a944; --mask: #0d2440; --on-mask: #e8eef6; --on-mask-muted: #9fb2c8;
+    --signal: #5aa9e6; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #09111c; --sheet: #0e1828; --ink: #e5ebf3; --muted: #9ba8ba; --line: #22324a;
+  --gold: #e3b75c; --pad: #d9a944; --mask: #0d2440; --on-mask: #e8eef6; --on-mask-muted: #9fb2c8;
+  --signal: #5aa9e6; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 400 16px/1.6 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.05; }
+p { margin: 0; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.mono { font-family: var(--font-mono); }
+.label { font: 500 12px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--pad); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- top bar ---------- */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.bar .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
+.bar .id { font: 600 13px/1 var(--font-mono); letter-spacing: .04em; white-space: nowrap; text-decoration: none; display: flex; gap: 10px; align-items: center; }
+.bar .id i { width: 10px; height: 10px; border-radius: 50%; background: var(--pad); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pad) 25%, transparent); }
+.bar nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; margin-left: auto; min-width: 0; }
+.bar nav::-webkit-scrollbar { display: none; }
+.bar nav a { font: 500 13px/1 var(--font-body); text-decoration: none; color: var(--muted); padding: 8px 10px; border-radius: 6px; white-space: nowrap; }
+.bar nav a:hover { color: var(--ink); background: var(--sheet); }
+
+/* ---------- hero / page 1 ---------- */
+.hero { padding-block: 48px 40px; }
+.docline { display: flex; flex-wrap: wrap; gap: 8px 20px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); margin-bottom: 36px; }
+.docline span:last-child { margin-left: auto; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 48px; align-items: center; }
+.hero h1 {
+  font-size: clamp(52px, 9.4vw, 128px); font-weight: 900; font-stretch: 125%;
+  letter-spacing: -.035em; line-height: .88; text-transform: uppercase;
+}
+.hero h1 .last { display: block; color: transparent; -webkit-text-stroke: 1.6px var(--ink); }
+@supports not (-webkit-text-stroke: 1px black) { .hero h1 .last { color: var(--ink); } }
+.role { margin-top: 26px; font: 600 clamp(18px, 2.1vw, 23px)/1.3 var(--font-display); font-stretch: 100%; }
+.role em { font-style: normal; color: var(--gold); }
+.lede { margin-top: 16px; max-width: 54ch; color: var(--muted); font-size: 17px; }
+.status { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; font: 500 13px/1 var(--font-mono); padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--sheet); }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: #1f9d55; box-shadow: 0 0 0 0 #1f9d5588; animation: ping 2.4s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 #1f9d5577; } 70% { box-shadow: 0 0 0 9px #1f9d5500; } 100% { box-shadow: 0 0 0 0 #1f9d5500; } }
+.ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 14px/1 var(--font-body); padding: 13px 18px; border-radius: 8px; text-decoration: none; border: 1.5px solid var(--ink); transition: transform .15s, background .15s; }
+.btn:hover { transform: translateY(-2px); }
+.btn.solid { background: var(--ink); color: var(--paper); }
+.btn.ghost:hover { background: var(--sheet); }
+.btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* IC package: portrait is the die */
+.chip-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.chip { display: grid; grid-template-columns: auto 18px minmax(0, 1fr) 18px auto; align-items: stretch; width: 100%; max-width: 500px; }
+.pins { display: grid; grid-template-rows: repeat(8, 1fr); gap: 0; padding-block: 18px; }
+.pins.labels { font: 500 12px/1 var(--font-mono); color: var(--muted); }
+.pins.labels span { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.pins.labels.l span { justify-content: flex-end; padding-right: 8px; }
+.pins.labels.r span { padding-left: 8px; }
+.pins.labels b { font-weight: 600; color: var(--ink); }
+.pins.labels small { font-size: 10px; color: var(--gold); }
+.pins.legs span { display: flex; align-items: center; }
+.pins.legs span::before { content: ""; display: block; width: 100%; height: 10px; background: linear-gradient(180deg, color-mix(in srgb, var(--pad) 70%, white), var(--pad)); border-radius: 2px; }
+.pins.legs.l span::before { border-radius: 2px 0 0 2px; }
+.pins.legs.r span::before { border-radius: 0 2px 2px 0; }
+.body { position: relative; background: #121a26; border-radius: 10px; padding: 18px; box-shadow: 0 30px 60px -30px #0d162680, inset 0 0 0 1px #ffffff14; }
+.body::before { content: ""; position: absolute; top: 12px; left: 50%; translate: -50% 0; width: 34px; height: 17px; border-radius: 0 0 17px 17px; background: #0a0f17; z-index: 1; }
+.body::after { content: ""; position: absolute; left: 18px; bottom: 24px; width: 9px; height: 9px; border-radius: 50%; background: #0a0f17; box-shadow: inset 0 1px 1px #ffffff22; }
+.die { position: relative; border-radius: 4px; overflow: hidden; background: #fff; aspect-ratio: 9 / 10; }
+.die img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
+.die::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px #00000014; pointer-events: none; }
+.marking { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 12px; font: 500 11px/1.3 var(--font-mono); color: #c9d3e0; letter-spacing: .06em; }
+.marking b { color: #f1d389; font-weight: 600; }
+.chip-cap { font: 400 12px/1.4 var(--font-mono); color: var(--muted); text-align: center; }
+
+/* features / applications / description */
+.page1 { display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 0; margin-top: 52px; border-top: 2px solid var(--ink); border-bottom: 1px solid var(--line); }
+.page1 > div { padding: 22px 26px 26px 0; min-width: 0; }
+.page1 > div + div { padding-left: 26px; border-left: 1px solid var(--line); }
+.page1 h2 { font-size: 15px; font-stretch: 100%; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 14px; }
+.page1 ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 9px; font-size: 15px; }
+.page1 li { position: relative; padding-left: 18px; }
+.page1 li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; background: var(--pad); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.page1 p { font-size: 15px; color: var(--muted); }
+.page1 p + p { margin-top: 10px; }
+
+/* ---------- generic section ---------- */
+section.s { padding-block: 84px 0; }
+.s-head { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: end; margin-bottom: 34px; }
+.s-head .label span { display: block; color: var(--gold); font-size: 13px; }
+.s-head h2 { font-size: clamp(34px, 5vw, 60px); font-weight: 800; font-stretch: 112%; letter-spacing: -.025em; text-transform: uppercase; }
+.s-head p { grid-column: 2; max-width: 64ch; color: var(--muted); margin-top: -10px; }
+
+/* electrical characteristics */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--sheet); }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { font: 600 11px/1.3 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: color-mix(in srgb, var(--paper) 60%, var(--sheet)); }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: color-mix(in srgb, var(--pad) 7%, transparent); }
+td.sym { font: 500 14px/1.5 var(--font-mono); color: var(--gold); white-space: nowrap; }
+td.val { font: 600 20px/1.2 var(--font-display); font-stretch: 100%; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+td.unit { font: 400 13px/1.6 var(--font-mono); color: var(--muted); white-space: nowrap; }
+td.cond { color: var(--muted); font-size: 14px; }
+.ec { min-width: 760px; }
+.ec th:nth-child(4) { text-align: right; }
+.note { margin-top: 12px; font-size: 13px; color: var(--muted); }
+
+/* block diagram */
+.blocks { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; counter-reset: blk; }
+.blk { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 18px 16px 16px; background: var(--sheet); border: 1.5px solid var(--ink); border-radius: 6px; min-width: 0; text-decoration: none; transition: transform .18s, box-shadow .18s; }
+.blk:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--pad); }
+.blk:not(:last-child)::after { content: ""; position: absolute; top: 34px; right: -23px; width: 22px; height: 2px; background: var(--ink); }
+.blk:not(:last-child)::before { content: ""; position: absolute; top: 30px; right: -24px; border: 5px solid transparent; border-left: 7px solid var(--ink); border-right: 0; }
+.blk .label { font-size: 11px; color: var(--gold); }
+.blk h3 { font-size: 17px; font-stretch: 100%; font-weight: 700; line-height: 1.15; }
+.blk p { font-size: 13.5px; color: var(--muted); line-height: 1.5; flex: 1; }
+.blk .go { font: 500 12px/1.3 var(--font-mono); color: var(--ink); border-top: 1px dashed var(--line); padding-top: 10px; }
+
+/* projects */
+.proj { display: grid; grid-template-columns: 200px minmax(0, 1fr) 300px; gap: 32px; padding-block: 40px; border-top: 1px solid var(--line); }
+.proj:last-child { border-bottom: 1px solid var(--line); }
+.proj .meta { display: flex; flex-direction: column; gap: 10px; }
+.proj .fig { font: 700 64px/1 var(--font-display); font-stretch: 125%; color: transparent; -webkit-text-stroke: 1.2px var(--pad); }
+.tag { display: inline-flex; align-self: flex-start; font: 500 11px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); background: var(--sheet); }
+.tag.award { border-color: var(--pad); color: var(--gold); }
+.proj h3 { font-size: clamp(24px, 3vw, 34px); font-weight: 800; font-stretch: 105%; letter-spacing: -.015em; }
+.proj .main { min-width: 0; }
+.proj .main > p { margin-top: 12px; color: var(--muted); max-width: 64ch; }
+.proj ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 15px; }
+.proj li { padding-left: 20px; position: relative; }
+.proj li::before { content: ""; position: absolute; left: 2px; top: .6em; width: 9px; height: 9px; border: 2px solid var(--pad); border-radius: 50%; }
+.proj li b { font-weight: 600; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+.stack span { font: 500 12px/1 var(--font-mono); padding: 6px 8px; border-radius: 4px; background: color-mix(in srgb, var(--ink) 6%, transparent); }
+.spec { align-self: start; border: 1.5px solid var(--ink); border-radius: 8px; background: var(--sheet); overflow: hidden; }
+.spec dl { margin: 0; display: grid; grid-template-columns: 1fr auto; }
+.spec dt, .spec dd { margin: 0; padding: 11px 14px; border-bottom: 1px solid var(--line); }
+.spec dt { font-size: 13px; color: var(--muted); }
+.spec dd { font: 600 16px/1.3 var(--font-display); font-stretch: 100%; text-align: right; font-variant-numeric: tabular-nums; }
+.spec .links { display: flex; flex-direction: column; }
+.spec .links a { display: flex; justify-content: space-between; padding: 12px 14px; font: 500 13px/1.3 var(--font-mono); text-decoration: none; border-bottom: 1px solid var(--line); }
+.spec .links a:last-child { border-bottom: 0; }
+.spec .links a:hover { background: var(--ink); color: var(--paper); }
+.spec .head { font: 600 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; padding: 10px 14px; background: var(--ink); color: var(--paper); }
+.rta { margin-top: 20px; }
+.rta table { min-width: 460px; font-size: 13.5px; }
+.rta td, .rta th { padding: 8px 12px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.rta td:not(:first-child), .rta th:not(:first-child) { text-align: right; }
+.rta caption { caption-side: bottom; text-align: left; padding: 10px 12px; font: 600 12px/1.3 var(--font-mono); color: #1f9d55; }
+
+/* gallery band */
+.band { margin-top: 96px; background: var(--mask); color: var(--on-mask); padding-block: 80px; position: relative; overflow: hidden; }
+.band::before { content: ""; position: absolute; inset: 0; opacity: .18; pointer-events: none;
+  background-image:
+    linear-gradient(90deg, transparent 49.5%, var(--on-mask-muted) 49.5%, var(--on-mask-muted) 50.5%, transparent 50.5%),
+    radial-gradient(circle at 50% 50%, var(--on-mask-muted) 3px, transparent 3.5px);
+  background-size: 120px 120px, 60px 60px; mask-image: linear-gradient(180deg, #000, transparent 40%); }
+.band .s-head h2 { color: var(--on-mask); }
+.band .s-head p, .band .label { color: var(--on-mask-muted); }
+.band .s-head .label span { color: var(--pad); }
+.gallery { columns: 3 300px; column-gap: 16px; position: relative; }
+.shot { break-inside: avoid; margin: 0 0 16px; position: relative; border-radius: 8px; overflow: hidden; cursor: zoom-in; background: #0007; }
+.shot button { all: unset; display: block; cursor: zoom-in; width: 100%; }
+.shot img { width: 100%; height: auto; transition: transform .5s ease; }
+.shot:hover img { transform: scale(1.04); }
+.shot figcaption { position: absolute; inset: auto 0 0 0; padding: 40px 14px 12px; background: linear-gradient(180deg, transparent, #050b14e6); color: #f3f6fa; font-size: 14px; line-height: 1.35; }
+.shot figcaption b { display: block; font: 700 15px/1.25 var(--font-display); font-stretch: 100%; }
+.shot figcaption span { color: #c2cfdd; font-size: 13px; }
+.shot button:focus-visible { outline: 3px solid var(--pad); outline-offset: -3px; }
+dialog.lb { border: 0; padding: 0; background: transparent; max-width: min(1000px, 94vw); max-height: 92vh; }
+dialog.lb::backdrop { background: #03070dea; }
+dialog.lb img { max-height: 80vh; width: auto; margin: 0 auto; border-radius: 6px; }
+dialog.lb p { color: #e8eef6; text-align: center; margin-top: 12px; font-size: 15px; }
+dialog.lb .x { position: fixed; top: calc(14px + env(safe-area-inset-top, 0px)); right: calc(14px + env(safe-area-inset-right, 0px)); width: 42px; height: 42px; border-radius: 50%; border: 1px solid #ffffff44; background: #0b1420; color: #fff; font-size: 22px; cursor: pointer; }
+
+/* timing diagram */
+.timing { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--sheet); padding: 18px 18px 8px; }
+.timing svg { display: block; min-width: 780px; width: 100%; height: auto; }
+.timing text { font-family: var(--font-mono); }
+.roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin-top: 34px; }
+.r { padding-block: 20px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; }
+.r .sig { font: 600 12px/1 var(--font-mono); color: var(--gold); padding-top: 5px; }
+.r h3 { font-size: 19px; font-stretch: 100%; font-weight: 700; line-height: 1.25; }
+.r .org { margin-top: 4px; font-size: 14px; color: var(--muted); }
+.r .when { font: 500 12px/1 var(--font-mono); color: var(--muted); margin-top: 8px; }
+.r p { margin-top: 10px; font-size: 15px; }
+.r ul { margin: 10px 0 0; padding-left: 18px; font-size: 15px; display: grid; gap: 4px; }
+
+/* recognition */
+.honors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.honor { padding: 22px; border-radius: 8px; background: var(--sheet); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.honor.big { grid-column: span 2; background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.honor.big .when, .honor.big p { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.honor .when { font: 500 12px/1 var(--font-mono); color: var(--gold); letter-spacing: .04em; }
+.honor.big .when { color: var(--pad); }
+.honor h3 { font-size: 21px; font-stretch: 100%; font-weight: 750; line-height: 1.2; }
+.honor.big h3 { font-size: clamp(26px, 3.2vw, 38px); font-stretch: 110%; font-weight: 850; }
+.honor p { font-size: 14.5px; color: var(--muted); }
+
+/* skills pin table + certs */
+.two { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.pinfn { min-width: 520px; }
+.pinfn td:first-child { font: 600 13px/1.5 var(--font-mono); color: var(--gold); width: 64px; }
+.pinfn td:nth-child(2) { font-weight: 600; width: 170px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { font: 500 12.5px/1 var(--font-mono); padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; }
+.certs { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--sheet); }
+.certs li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 14px; padding: 13px 16px; border-bottom: 1px solid var(--line); }
+.certs li:last-child { border-bottom: 0; }
+.certs b { font-weight: 600; font-size: 15px; }
+.certs span { font-size: 13px; color: var(--muted); grid-column: 1; }
+.certs time { font: 500 12px/1.6 var(--font-mono); color: var(--gold); grid-row: 1; grid-column: 2; }
+.edu { margin-top: 18px; display: grid; gap: 12px; }
+.edu div { padding: 16px; border-left: 3px solid var(--pad); background: var(--sheet); border-radius: 0 8px 8px 0; }
+.edu b { display: block; font: 700 16px/1.3 var(--font-display); font-stretch: 100%; }
+.edu span { font-size: 14px; color: var(--muted); }
+
+/* ordering info */
+.order { margin-top: 96px; border-top: 2px solid var(--ink); padding-block: 64px 40px; }
+.pn { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 6px 4px; font: 800 clamp(36px, 7vw, 92px)/1 var(--font-display); font-stretch: 125%; letter-spacing: -.02em; }
+.pn .seg { display: flex; flex-direction: column; gap: 10px; }
+.pn .seg small { font: 500 12px/1.3 var(--font-mono); letter-spacing: .04em; color: var(--muted); border-top: 2px solid var(--pad); padding-top: 8px; text-transform: uppercase; }
+.pn .dash { color: var(--pad); padding-bottom: 32px; }
+.order h2 { margin-top: 48px; font-size: clamp(28px, 4vw, 46px); font-weight: 800; font-stretch: 105%; max-width: 20ch; }
+.order p.lead { margin-top: 14px; color: var(--muted); max-width: 60ch; font-size: 17px; }
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); font: 400 12px/1.5 var(--font-mono); color: var(--muted); }
+
+/* ---------- reveal (starts visible; only shifts) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .rise { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
+  .rise.d1 { animation-delay: .08s; } .rise.d2 { animation-delay: .16s; } .rise.d3 { animation-delay: .24s; }
+  @keyframes rise { from { transform: translateY(14px); } to { transform: none; } }
+  .pins.legs span::before { transform-origin: var(--o, left); animation: leg .6s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 40ms + .2s); }
+  .pins.legs.l span::before { --o: right; }
+  @keyframes leg { from { transform: scaleX(.2); } to { transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1080px) {
+  .blocks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .blk:nth-child(3)::after, .blk:nth-child(3)::before { display: none; }
+  .proj { grid-template-columns: minmax(0, 1fr) 280px; }
+  .proj .meta { grid-column: 1 / -1; flex-direction: row; align-items: center; flex-wrap: wrap; }
+  .proj .fig { font-size: 40px; }
+}
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .page1 { grid-template-columns: 1fr; }
+  .page1 > div, .page1 > div + div { padding: 20px 0; border-left: 0; }
+  .page1 > div + div { border-top: 1px solid var(--line); }
+  .s-head { grid-template-columns: 1fr; gap: 10px; }
+  .s-head p { grid-column: 1; margin-top: 4px; }
+  .two { grid-template-columns: 1fr; }
+  .honors { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .proj { grid-template-columns: 1fr; gap: 20px; }
+  .roles { grid-template-columns: 1fr; }
+  .blocks { grid-template-columns: 1fr; gap: 18px; }
+  .blk::after, .blk::before { display: none !important; }
+  .blk:not(:last-child)::after { display: block !important; top: auto; bottom: -19px; right: auto; left: 30px; width: 2px; height: 18px; }
+  .honors { grid-template-columns: 1fr; }
+  .honor.big { grid-column: auto; }
+  .bar nav { display: none; }
+  .docline span:last-child { margin-left: 0; }
+  .pn .dash { padding-bottom: 30px; }
+}
+@media (max-width: 460px) {
+  .chip { grid-template-columns: auto 12px minmax(0, 1fr) 12px auto; }
+  .pins.labels { font-size: 10.5px; }
+  .pins.labels small { display: none; }
+  .body { padding: 12px; }
+  .marking { font-size: 9.5px; }
+}
+</style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mohan Sai Potnuru | Embedded Systems &amp; IoT Engineer">
+<meta property="og:description" content="Portfolio written as a component datasheet: embedded systems, RTOS, IoT and RISC-V VLSI.">
+<meta property="og:url" content="https://mohansaipotnuru.github.io/datasheet/">
+<meta property="og:image" content="https://mohansaipotnuru.github.io/datasheet/img/portrait.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mohansaipotnuru.github.io/datasheet/">
+<style>html,body{margin:0} [hidden]{display:none!important}</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <a class="id" href="#top"><i></i>MSP-26 · Mohan Sai Potnuru</a>
+    <nav aria-label="Sections">
+      <a href="#characteristics">Characteristics</a>
+      <a href="#stack">Stack</a>
+      <a href="#projects">Projects</a>
+      <a href="#field">Field</a>
+      <a href="#timing">Experience</a>
+      <a href="#recognition">Recognition</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ===================== PAGE 1 ===================== -->
+  <section class="hero wrap">
+    <div class="docline label">
+      <span>Engineer datasheet</span><span>Part no. MSP-26</span><span>Rev 2.1 · Nov 2026</span><span>Visakhapatnam, India</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="rise">
+        <h1>Mohan Sai <span class="last">Potnuru</span></h1>
+        <p class="role">Embedded Systems &amp; IoT Engineer · <em>RTOS</em> · <em>RISC-V</em> physical design</p>
+        <p class="lede">I take ideas from the transistor to the cloud: register-level firmware, analysed real-time task sets, connected IoT devices and a RISC-V SoC hardened to GDSII. Everything I publish ships with tests, CI and real documentation.</p>
+        <div class="status"><i></i>Open to embedded, RTOS, IoT &amp; VLSI roles</div>
+        <div class="ctas">
+          <a class="btn solid" href="#projects">See the projects</a>
+          <a class="btn ghost" href="https://github.com/MohansaiPotnuru" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>GitHub</a>
+          <a class="btn ghost" href="https://www.linkedin.com/in/mohan-sai-potnuru-0b274a299/" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.15C0 .52.52 0 1.18 0h13.64C15.48 0 16 .52 16 1.15v13.7c0 .63-.52 1.15-1.18 1.15H1.18C.52 16 0 15.48 0 14.85V1.15Zm4.94 12.23V6.17H2.542v7.21h2.4Zm-1.2-8.2c.84 0 1.36-.55 1.36-1.24-.02-.7-.52-1.24-1.34-1.24-.82 0-1.36.54-1.36 1.24 0 .69.52 1.24 1.32 1.24h.02Zm4.9 8.2V9.35c0-.21.02-.43.08-.58.17-.43.57-.88 1.23-.88.87 0 1.21.66 1.21 1.63v3.86h2.4V9.25c0-2.22-1.18-3.25-2.76-3.25-1.28 0-1.85.7-2.17 1.2v.03h-.02l.02-.03V6.17h-2.4c.03.68 0 7.21 0 7.21h2.4Z"/></svg>LinkedIn</a>
+        </div>
+      </div>
+
+      <div class="chip-wrap rise d2">
+        <div class="chip" aria-label="Portrait of Mohan Sai Potnuru drawn as a 16-pin IC, each pin labelled with a skill">
+          <div class="pins labels l" aria-hidden="true">
+            <span><b>C / C++</b><small>1</small></span><span><b>Python</b><small>2</small></span><span><b>Verilog</b><small>3</small></span><span><b>FreeRTOS</b><small>4</small></span>
+            <span><b>STM32</b><small>5</small></span><span><b>ESP32</b><small>6</small></span><span><b>Yocto</b><small>7</small></span><span><b>KiCad</b><small>8</small></span>
+          </div>
+          <div class="pins legs l" aria-hidden="true">
+            <span style="--i:0"></span><span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span><span style="--i:4"></span><span style="--i:5"></span><span style="--i:6"></span><span style="--i:7"></span>
+          </div>
+          <div class="body">
+            <div class="die"><img src="img/portrait.jpg" alt="Mohan Sai Potnuru smiling, wearing a black polo shirt" width="1190" height="1323"></div>
+            <div class="marking"><span><b>MSP-26</b> ECE</span><span>VIZAG · IN · 2627</span></div>
+          </div>
+          <div class="pins legs r" aria-hidden="true">
+            <span style="--i:8"></span><span style="--i:9"></span><span style="--i:10"></span><span style="--i:11"></span><span style="--i:12"></span><span style="--i:13"></span><span style="--i:14"></span><span style="--i:15"></span>
+          </div>
+          <div class="pins labels r" aria-hidden="true">
+            <span><small>16</small><b>RISC-V</b></span><span><small>15</small><b>OpenROAD</b></span><span><small>14</small><b>MQTT</b></span><span><small>13</small><b>BLE · LTE</b></span>
+            <span><small>12</small><b>UART</b></span><span><small>11</small><b>SPI</b></span><span><small>10</small><b>I²C</b></span><span><small>9</small><b>1-Wire</b></span>
+          </div>
+        </div>
+        <p class="chip-cap">Fig. 1 · Pin configuration, DIP-16 (top view)</p>
+      </div>
+    </div>
+
+    <div class="page1 rise d3">
+      <div>
+        <h2>Features</h2>
+        <ul>
+          <li>Embedded Systems &amp; IoT Engineer at Kaumodaki NexusGrid since Apr 2026</li>
+          <li>32-bit RISC-V SoC on SkyWater 130 nm, clean across 9 signoff corners</li>
+          <li>FreeRTOS firmware with boot-time response-time analysis and zero heap</li>
+          <li>Top 6 + prize, DRE Enterprise Hackathon '26; Top 40 nationally, AICTE × Shell</li>
+          <li>Lead Support, NASA Space Apps Visakhapatnam, 2025 and 2026</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Applications</h2>
+        <ul>
+          <li>Industrial condition monitoring</li>
+          <li>Conveyor and production-line sensing</li>
+          <li>Offline diagnostics for remote machinery</li>
+          <li>Smart buildings and energy metering</li>
+          <li>Air-quality sensing and prediction</li>
+          <li>Solar EV charging</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Description</h2>
+        <p>B.Tech ECE student at Dr. Lankapalli Bullayya College of Engineering (2024–2027), after a Diploma in ECE with 82%.</p>
+        <p>Chairperson of the IETE Student Forum, resource person for EV technology workshops, and builder of 50+ embedded prototypes. I like hardware that is measured, tested and documented well enough that someone else can rebuild it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHARACTERISTICS ===================== -->
+  <section class="s wrap" id="characteristics">
+    <div class="s-head">
+      <p class="label"><span>§ 1</span>Characteristics</p>
+      <h2>Measured, not claimed</h2>
+      <p>Every figure comes from a build artefact, a CI run or a certificate. Conditions say where to check it.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="ec">
+        <thead><tr><th>Symbol</th><th>Parameter</th><th>Conditions</th><th>Value</th><th>Unit</th></tr></thead>
+        <tbody>
+          <tr><td class="sym">N<sub>corner</sub></td><td>Signoff corners with clean timing</td><td class="cond">RISC-V SoC, SKY130, LibreLane, release v2.1</td><td class="val">9 / 9</td><td class="unit">corners</td></tr>
+          <tr><td class="sym">t<sub>setup</sub></td><td>Worst setup slack</td><td class="cond">25 ns clock (40 MHz), ss · 100 °C · 1.60 V</td><td class="val">+7.26</td><td class="unit">ns</td></tr>
+          <tr><td class="sym">N<sub>DRC</sub></td><td>DRC, LVS and antenna errors at signoff</td><td class="cond">Magic, Netgen; routing converged 466 → 0</td><td class="val">0</td><td class="unit">errors</td></tr>
+          <tr><td class="sym">N<sub>check</sub></td><td>Host unit-test checks</td><td class="cond">rtos-condition-monitor, gcc + clang, ASan/UBSan</td><td class="val">24,433</td><td class="unit">checks</td></tr>
+          <tr><td class="sym">M<sub>heap</sub></td><td>Dynamic heap in RTOS firmware</td><td class="cond">FreeRTOS V11, all kernel objects static</td><td class="val">0</td><td class="unit">bytes</td></tr>
+          <tr><td class="sym">U</td><td>CPU utilisation of analysed task set</td><td class="cond">5 tasks + timer service, RTA pass at boot</td><td class="val">14.08</td><td class="unit">%</td></tr>
+          <tr><td class="sym">R²</td><td>AQI model test score</td><td class="cond">Random Forest, 26 Indian cities, 2015–2020</td><td class="val">0.91</td><td class="unit">–</td></tr>
+          <tr><td class="sym">N<sub>proto</sub></td><td>Embedded &amp; IoT prototypes built</td><td class="cond">CEMS industrial training, 2023</td><td class="val">50+</td><td class="unit">units</td></tr>
+          <tr><td class="sym">N<sub>cert</sub></td><td>Certifications</td><td class="cond">Cisco, NPTEL (Elite), NIELIT, ISRO, CII, TCS iON</td><td class="val">30+</td><td class="unit">certs</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">T<sub>A</sub> = 25 °C unless otherwise noted. Source repositories are linked under each project below.</p>
+  </section>
+
+  <!-- ===================== BLOCK DIAGRAM ===================== -->
+  <section class="s wrap" id="stack">
+    <div class="s-head">
+      <p class="label"><span>§ 2</span>Functional block diagram</p>
+      <h2>From silicon to the cloud</h2>
+      <p>I work across the whole ECE stack. Each block links to the project that proves it.</p>
+    </div>
+    <div class="blocks">
+      <a class="blk" href="#p-riscv"><span class="label">L0 · silicon</span><h3>Digital design &amp; VLSI</h3><p>Verilog SoC integration, self-checking testbenches, synthesis, CTS, routing, multi-corner STA and signoff.</p><span class="go">RISC-V SoC ↓</span></a>
+      <a class="blk" href="#p-irsense"><span class="label">L1 · bare metal</span><h3>Register-level firmware</h3><p>Cortex-M4 drivers without HAL, timer input capture, ISR-to-task deferral, wear-levelled flash.</p><span class="go">IRSense ↓</span></a>
+      <a class="blk" href="#p-rtos"><span class="label">L2 · real time</span><h3>RTOS &amp; scheduling</h3><p>Rate-monotonic priorities, response-time analysis, priority-inheritance mutexes, watchdog supervision.</p><span class="go">rtos-condition-monitor ↓</span></a>
+      <a class="blk" href="#p-home"><span class="label">L3 · connectivity</span><h3>IoT &amp; protocols</h3><p>ESP32 Wi-Fi and MQTT, dashboards, RFID, energy metering, BLE, 4G LTE / GPS, UART, SPI, I²C.</p><span class="go">Smart Home · MachGuard ↓</span></a>
+      <a class="blk" href="#p-mraa"><span class="label">L4 · platform</span><h3>Embedded Linux</h3><p>Yocto-based SAMA5D2 bring-up; GPIO, ADC, PWM, SPI and Wi-Fi from user space with libmraa.</p><span class="go">RuggedBoard ↓</span></a>
+      <a class="blk" href="#p-aqi"><span class="label">L5 · data</span><h3>Edge data &amp; ML</h3><p>Integer DSP on-device (EMA, windowed RMS) and leakage-free scikit-learn pipelines.</p><span class="go">AQI prediction ↓</span></a>
+    </div>
+  </section>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section class="s wrap" id="projects">
+    <div class="s-head">
+      <p class="label"><span>§ 3</span>Application examples</p>
+      <h2>Selected work</h2>
+      <p>Each project is built to the same bar: measured, tested, documented and reproducible.</p>
+    </div>
+
+    <article class="proj" id="p-rtos">
+      <div class="meta"><span class="fig">3.1</span><span class="tag">FreeRTOS · STM32F401</span><span class="tag award">Flagship</span></div>
+      <div class="main">
+        <h3>rtos-condition-monitor</h3>
+        <p>A FreeRTOS V11 condition-monitoring node for the NUCLEO-F401RE, written like production firmware. It samples an analog sensor at 100 Hz, computes a 1 s AC-RMS, raises hysteresis alarms and streams CRC-protected telemetry.</p>
+        <ul>
+          <li><b>Analysed task set:</b> exact response-time analysis runs at boot, with budgeted or measured WCETs</li>
+          <li><b>Zero heap:</b> every kernel object is statically allocated</li>
+          <li><b>Watchdog that proves liveness:</b> a supervisor feeds the IWDG only while every task checks in</li>
+          <li><b>Post-mortem:</b> fault records survive reset</li>
+          <li><b>CI:</b> host tests under ASan/UBSan, cppcheck and a QEMU boot test on every push</li>
+        </ul>
+        <div class="rta table-wrap">
+          <table>
+            <thead><tr><th>Task</th><th>Prio</th><th>T (µs)</th><th>C (µs)</th><th>R (µs)</th></tr></thead>
+            <tbody>
+              <tr><td>tmr_svc</td><td>6</td><td>100,000</td><td>20</td><td>20</td></tr>
+              <tr><td>supervisor</td><td>5</td><td>500,000</td><td>300</td><td>320</td></tr>
+              <tr><td>sensor</td><td>4</td><td>10,000</td><td>150</td><td>470</td></tr>
+              <tr><td>process</td><td>3</td><td>10,000</td><td>150</td><td>670</td></tr>
+              <tr><td>telemetry</td><td>2</td><td>100,000</td><td>1,000</td><td>11,920</td></tr>
+              <tr><td>cli</td><td>1</td><td>50,000</td><td>5,000</td><td>6,620</td></tr>
+            </tbody>
+            <caption>RTA: PASS · all deadlines met (computed by the firmware at boot)</caption>
+          </table>
+        </div>
+        <div class="stack"><span>C11</span><span>FreeRTOS V11</span><span>Cortex-M4F</span><span>CMSIS, no HAL</span><span>COBS + CRC-16</span><span>QEMU</span><span>GitHub Actions</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Tasks</dt><dd>5 + timer</dd><dt>Utilisation</dt><dd>14.08 %</dd><dt>Flash / RAM</dt><dd>30 / 18 KB</dd><dt>Test checks</dt><dd>24,433</dd><dt>Release</dt><dd>v1.0.0</dd></dl>
+        <div class="links"><a href="https://github.com/MohansaiPotnuru/rtos-condition-monitor" target="_blank" rel="noopener">Source &amp; docs <span>↗</span></a><a href="https://github.com/MohansaiPotnuru/rtos-condition-monitor/blob/main/docs/architecture.md" target="_blank" rel="noopener">Architecture <span>↗</span></a></div>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-riscv">
+      <div class="meta"><span class="fig">3.2</span><span class="tag">ASIC · SKY130</span><span class="tag award">RTL → GDSII</span></div>
+      <div class="main">
+        <h3>32-bit RISC-V SoC with 9-corner signoff</h3>
+        <p>A PicoRV32 RV32I core with a 256-byte boot ROM and a custom memory-mapped 8N1 UART, hardened with LibreLane / OpenROAD on the open SkyWater 130 nm PDK.</p>
+        <ul>
+          <li><b>Verification:</b> a self-checking Icarus testbench boots the SoC from ROM and decodes its serial output in CI</li>
+          <li><b>Closure:</b> the first run failed placement at 82% utilisation; die resize, cell exclusions, wire-length limits, slew margins and CTS tuning followed</li>
+          <li><b>Signoff:</b> zero DRC, LVS-clean, zero antenna; setup, hold, slew, cap and fanout clean on all 9 corners</li>
+          <li><b>Release:</b> GDS, metrics.json and signoff reports published as v2.1</li>
+        </ul>
+        <div class="stack"><span>Verilog</span><span>Yosys</span><span>OpenROAD</span><span>LibreLane</span><span>Magic · KLayout · Netgen</span><span>Multi-corner STA</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Die</dt><dd>500 × 500 µm</dd><dt>Target clock</dt><dd>40 MHz</dd><dt>Std cells</dt><dd>13,481</dd><dt>Worst hold slack</dt><dd>+34 ps</dd><dt>Corners clean</dt><dd>9 / 9</dd></dl>
+        <div class="links"><a href="https://github.com/MohansaiPotnuru/riscv-uart-sky130-soc" target="_blank" rel="noopener">Source &amp; signoff reports <span>↗</span></a></div>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-irsense">
+      <div class="meta"><span class="fig">3.3</span><span class="tag">Bare metal · Cortex-M4</span></div>
+      <div class="main">
+        <h3>IRSense: IR counter &amp; conveyor monitor</h3>
+        <p>STM32F401 firmware that turns a cheap IR obstacle sensor into a measurement instrument for conveyor lines.</p>
+        <ul>
+          <li>TIM2 captured in the EXTI ISR gives µs timestamps; the glitch filter adds latency, not error</li>
+          <li>Counter, monitor and guard modes with latched JAM, RATE and INTRUSION alarms</li>
+          <li>Wear-levelled, power-fail-safe flash config with CRC-32 (2,520 saves per erase)</li>
+          <li>21-command CLI, independent watchdog and reset-cause reporting</li>
+        </ul>
+        <div class="stack"><span>C</span><span>STM32</span><span>ASan/UBSan CI</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Host unit tests</dt><dd>45</dd><dt>CLI commands</dt><dd>21</dd><dt>Saves per erase</dt><dd>2,520</dd><dt>Release</dt><dd>v1.0.0</dd></dl>
+        <div class="links"><a href="https://github.com/MohansaiPotnuru/IRSense-NUCLEO-F401RE" target="_blank" rel="noopener">Source <span>↗</span></a></div>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-machguard">
+      <div class="meta"><span class="fig">3.4</span><span class="tag">ESP32 · Offline-first</span><span class="tag award">Top 6 + prize</span></div>
+      <div class="main">
+        <h3>DRE-MachGuard: machinery fault monitor</h3>
+        <p>Built by Team INVENTORS for the DRE Enterprise Hackathon '26 (problem statement PS08: offline fault diagnostics on a fault-injectable rig) for machines at remote sites with no internet.</p>
+        <ul>
+          <li>DS18B20 temperature, supply voltage, current and vibration-event monitoring</li>
+          <li>Rule-based diagnostics on the device; no cloud needed for core functions</li>
+          <li>OLED status display and three-colour LED condition alerts</li>
+        </ul>
+        <div class="stack"><span>ESP32</span><span>1-Wire</span><span>Condition monitoring</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Result</dt><dd>Top 6 finalist</dd><dt>Connectivity</dt><dd>Offline</dd><dt>Sensors</dt><dd>4 channels</dd><dt>Date</dt><dd>Oct 2026</dd></dl>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-home">
+      <div class="meta"><span class="fig">3.5</span><span class="tag">ESP32 · MQTT</span></div>
+      <div class="main">
+        <h3>ESP32 smart-home automation node</h3>
+        <p>Modular firmware with a single non-blocking loop and a rule engine.</p>
+        <ul>
+          <li>BME280, BH1750, MQ-2 / MQ-5 gas, water-level and PIR sensing</li>
+          <li>RFID lock with roles, lockout and auto-relock; arm state stored in NVS</li>
+          <li>PZEM-004T energy metering, MQTT with retained state, web dashboard and JSON API</li>
+          <li>Manual override buttons keep working when Wi-Fi is down</li>
+        </ul>
+        <div class="stack"><span>C++</span><span>MQTT</span><span>RFID</span><span>arduino-cli</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Sensors</dt><dd>7 types</dd><dt>CI targets</dt><dd>2 ESP32 cores</dd><dt>Fallback</dt><dd>Manual override</dd></dl>
+        <div class="links"><a href="https://github.com/MohansaiPotnuru/SmartHomeAutomation" target="_blank" rel="noopener">Source <span>↗</span></a></div>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-mraa">
+      <div class="meta"><span class="fig">3.6</span><span class="tag">Embedded Linux · Yocto</span></div>
+      <div class="main">
+        <h3>I/O on RuggedBoard-A5D2X (SAMA5D2)</h3>
+        <p>Step-by-step guides and Python examples for driving hardware from user space on an industrial Cortex-A5 board.</p>
+        <ul>
+          <li>Yocto 2.5 BSP, U-Boot 2018.07, Linux 4.9, libmraa v2.0.0</li>
+          <li>GPIO, ADC, PWM, an SPI loop-back self-test and Wi-Fi via wpa_supplicant</li>
+        </ul>
+        <div class="stack"><span>Python</span><span>libmraa</span><span>Yocto</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>CPU</dt><dd>Cortex-A5</dd><dt>Kernel</dt><dd>Linux 4.9</dd></dl>
+        <div class="links"><a href="https://github.com/MohansaiPotnuru/MRAA---RuggedBoard---A5D2X" target="_blank" rel="noopener">Source <span>↗</span></a></div>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-aqi">
+      <div class="meta"><span class="fig">3.7</span><span class="tag">ML · scikit-learn</span><span class="tag award">Top 40 nationally</span></div>
+      <div class="main">
+        <h3>AQI prediction for 26 Indian cities</h3>
+        <p>An AICTE × Shell Skills4Future project: daily Air Quality Index prediction (2015–2020) with leakage-free pipelines and a comparison of five models.</p>
+        <div class="stack"><span>Python</span><span>pandas</span><span>scikit-learn</span><span>Jupyter</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Random Forest test R²</dt><dd>0.91</dd><dt>Models compared</dt><dd>5</dd><dt>Cities</dt><dd>26</dd></dl>
+        <div class="links"><a href="https://github.com/MohansaiPotnuru/Air-Quality-Prediction-by-AICTE" target="_blank" rel="noopener">Source <span>↗</span></a></div>
+      </aside>
+    </article>
+
+    <article class="proj" id="p-ev">
+      <div class="meta"><span class="fig">3.8</span><span class="tag">Power · Renewable</span><span class="tag award">Team lead</span></div>
+      <div class="main">
+        <h3>Solar-powered EV charging station</h3>
+        <p>Diploma final-year project that I led: circuit design, energy management and renewable-energy integration applied to EV charging. It grew into teaching EV batteries, BMS, motors and charging as a workshop resource person.</p>
+        <div class="stack"><span>Power electronics</span><span>Solar PV</span><span>EV</span></div>
+      </div>
+      <aside class="spec">
+        <div class="head">Spec</div>
+        <dl><dt>Role</dt><dd>Team lead</dd><dt>Led to</dt><dd>EV workshops</dd></dl>
+      </aside>
+    </article>
+  </section>
+
+  <!-- ===================== FIELD (photo band) ===================== -->
+  <section class="band" id="field">
+    <div class="wrap">
+      <div class="s-head">
+        <p class="label"><span>§ 4</span>In the field</p>
+        <h2>Out from behind the bench</h2>
+        <p>Events, demos, teaching and leadership, from my LinkedIn posts. Select a photo to enlarge it.</p>
+      </div>
+      <div class="gallery" id="gallery">
+        <figure class="shot"><button type="button"><img src="img/nasa-space-apps.jpg" alt="NASA Space Apps Challenge 2026 Visakhapatnam poster introducing P. Mohan Sai as Lead Support" width="358" height="508" loading="lazy"></button><figcaption><b>NASA Space Apps 2026: Lead Support</b><span>Visakhapatnam, second year in the role</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/dre-certificate.jpg" alt="DRE Enterprise Hackathon 2026 Top 6 Finalist certificate, Team INVENTORS" width="480" height="339" loading="lazy"></button><figcaption><b>DRE Enterprise Hackathon '26: Top 6</b><span>Team INVENTORS · DRE-MachGuard</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/iot-summit-booth.jpg" alt="Mohan Sai at a sponsor booth at IoT Summit 2026" width="480" height="480" loading="lazy"></button><figcaption><b>IoT Summit '26</b><span>Sponsor delegate, 17 Sep 2026</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/iot-summit-demo.jpg" alt="A hardware demo for students at the Kaumodaki Labs stall" width="480" height="360" loading="lazy"></button><figcaption><b>Live demos at the Kaumodaki Labs stall</b><span>Embedded and IoT prototypes for students</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/ev-workshop-felicitation.jpg" alt="Felicitated as resource person at the EV Technology workshop at DIET" width="480" height="330" loading="lazy"></button><figcaption><b>Resource Person: EV Technology</b><span>3-day workshop at DIET with APSSDC, Sep 2026</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/iot-summit-team.jpg" alt="Kaumodaki NexusGrid team at their IoT Summit stall" width="480" height="360" loading="lazy"></button><figcaption><b>Team Kaumodaki NexusGrid</b><span>Industry 4.0 / 5.0 skill development</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/giet-fdp.jpg" alt="Banner of the Faculty Development Programme at GIET University" width="480" height="360" loading="lazy"></button><figcaption><b>Industry–academia FDP, GIET University</b><span>Digital Twin, IoT, Private 5G · Jun 2026</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/future-skills-summit.jpg" alt="Group photo at the Future Skills Summit and Awards 2026 stall" width="480" height="247" loading="lazy"></button><figcaption><b>Future Skills Summit &amp; Awards 2026</b><span>T-Works Hyderabad</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/iot-summit-stage.jpg" alt="Group on stage at IoT Summit 2026" width="480" height="270" loading="lazy"></button><figcaption><b>IoT Summit '26 on stage</b><span>With organisers, sponsors and delegates</span></figcaption></figure>
+        <figure class="shot"><button type="button"><img src="img/ev-workshop-group.jpg" alt="Group photo of the EV Technology workshop at DIET" width="480" height="218" loading="lazy"></button><figcaption><b>EV workshop cohort</b><span>Faculty and participants, DIET Anakapalle</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TIMING ===================== -->
+  <section class="s wrap" id="timing">
+    <div class="s-head">
+      <p class="label"><span>§ 5</span>Timing diagram</p>
+      <h2>Experience</h2>
+      <p>Each signal is high while the role was active. Hover a pulse for details; the arrow means the role continues.</p>
+    </div>
+    <div class="timing"><svg id="wave" viewBox="0 0 1100 400" role="img" aria-labelledby="wave-t"><title id="wave-t">Timeline of roles from 2023 to 2026</title></svg></div>
+
+    <div class="roles">
+      <div class="r"><span class="sig">S1</span><div><h3>Embedded Systems &amp; IoT Engineer (Intern)</h3><p class="org">Kaumodaki NexusGrid · Visakhapatnam</p><p class="when">Apr 2026 – present</p>
+        <ul><li>ESP32 and ESP32-CAM firmware: sensor acquisition, Wi-Fi and MQTT, cloud dashboards</li><li>Gas and air-quality analog front-end boards in KiCad; 4G LTE + GPS trackers; BLE load cells; health-monitoring hardware</li><li>Represented the company at IoT Summit '26 and the Future Skills Summit 2026</li></ul></div></div>
+      <div class="r"><span class="sig">S2</span><div><h3>Full Stack Python &amp; Agentic AI Intern</h3><p class="org">CSC India · APSCHE Student Internship</p><p class="when">May 2026 – Sep 2026</p><p>Python full-stack development and agentic-AI frameworks.</p></div></div>
+      <div class="r"><span class="sig">S3</span><div><h3>RTOS Intern</h3><p class="org">CSC India · APSCHE · IGIAT</p><p class="when">May 2025 – Jun 2025</p><p>Preemptive scheduling, task design, queues, semaphores, mutexes, timers and ISR handling on microcontrollers.</p></div></div>
+      <div class="r"><span class="sig">S4</span><div><h3>AI &amp; Data Analytics Intern (Skills4Future)</h3><p class="org">Edunet Foundation · AICTE · Shell India</p><p class="when">Feb 2025 – Mar 2025</p><p>AQI prediction project, selected among the Top 40 nationally.</p></div></div>
+      <div class="r"><span class="sig">S5</span><div><h3>Space &amp; AI Internship Programs</h3><p class="org">Agnirva (AICTE recognised)</p><p class="when">Jan 2025 – Jun 2025</p><p>Satellite systems and space-mission fundamentals (80 h, 440+ learning steps), then applied generative-AI tooling.</p></div></div>
+      <div class="r"><span class="sig">S6</span><div><h3>Embedded Systems &amp; IoT Developer (Industrial Training)</h3><p class="org">Centre of Excellence in Maritime &amp; Shipbuilding (CEMS)</p><p class="when">Jun 2023 – Nov 2023</p><p>Designed, built and tested 50+ real-time embedded and IoT projects on Arduino UNO and NodeMCU; circuit design, PCB development and power management.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ===================== RECOGNITION ===================== -->
+  <section class="s wrap" id="recognition">
+    <div class="s-head">
+      <p class="label"><span>§ 6</span>Qualification</p>
+      <h2>Recognition &amp; leadership</h2>
+    </div>
+    <div class="honors">
+      <div class="honor big"><span class="when">Oct 2026</span><h3>Top 6 Finalist + prize, DRE Enterprise Hackathon '26</h3><p>With DRE-MachGuard, an offline fault monitor for machinery at remote sites (Team INVENTORS).</p></div>
+      <div class="honor"><span class="when">2025 &amp; 2026</span><h3>Lead Support, NASA Space Apps</h3><p>International Space Apps Challenge, Visakhapatnam local event.</p></div>
+      <div class="honor"><span class="when">Current</span><h3>Chairperson, IETE Student Forum</h3><p>Leading the forum's technical community at DLBCE.</p></div>
+      <div class="honor"><span class="when">Sep 2026</span><h3>Resource Person, EV Technology</h3><p>3-day DIET × APSSDC workshop: batteries, BMS, motors, AC/DC charging, diagnostics.</p></div>
+      <div class="honor"><span class="when">Mar 2025</span><h3>Top 40 project nationally</h3><p>AICTE × Shell India Skills4Future, AQI prediction.</p></div>
+      <div class="honor"><span class="when">2026</span><h3>Stage II, Viksit Bharat Young Leaders Dialogue</h3><p>MY Bharat, Ministry of Youth Affairs &amp; Sports; state-level round.</p></div>
+      <div class="honor"><span class="when">DLBCE</span><h3>Main Student Coordinator, Technotsav</h3><p>ECE technical fest.</p></div>
+      <div class="honor"><span class="when">Apr 2026</span><h3>NPTEL Elite</h3><p>Sensors and Actuators, 12-week course, assignments 25/25.</p></div>
+    </div>
+  </section>
+
+  <!-- ===================== SKILLS + CERTS ===================== -->
+  <section class="s wrap" id="skills">
+    <div class="s-head">
+      <p class="label"><span>§ 7</span>Pin functions</p>
+      <h2>Toolbox &amp; credentials</h2>
+    </div>
+    <div class="two">
+      <div class="table-wrap">
+        <table class="pinfn">
+          <thead><tr><th>Pins</th><th>Function</th><th>Tools</th></tr></thead>
+          <tbody>
+            <tr><td>1–3</td><td>Languages</td><td><div class="chips"><span>C (C11)</span><span>C++</span><span>Python</span><span>Verilog</span><span>ARM Thumb asm</span></div></td></tr>
+            <tr><td>5–6</td><td>MCUs, SoCs &amp; boards</td><td><div class="chips"><span>STM32 Cortex-M4F</span><span>ESP32 / ESP32-CAM</span><span>Arduino</span><span>NodeMCU</span><span>SAMA5D2</span><span>RISC-V</span><span>Raspberry Pi</span></div></td></tr>
+            <tr><td>4, 7</td><td>Real-time &amp; OS</td><td><div class="chips"><span>FreeRTOS</span><span>Bare metal / CMSIS</span><span>Response-time analysis</span><span>Yocto Linux</span><span>libmraa</span></div></td></tr>
+            <tr><td>9–14</td><td>Protocols</td><td><div class="chips"><span>UART</span><span>SPI</span><span>I²C</span><span>1-Wire</span><span>MQTT</span><span>Wi-Fi</span><span>BLE</span><span>4G LTE / GPS</span><span>COBS / CRC</span></div></td></tr>
+            <tr><td>8, 15–16</td><td>EDA &amp; VLSI</td><td><div class="chips"><span>Yosys</span><span>OpenROAD</span><span>LibreLane</span><span>Magic</span><span>KLayout</span><span>Netgen</span><span>Icarus Verilog</span><span>SKY130</span><span>KiCad</span></div></td></tr>
+            <tr><td>NC</td><td>Quality &amp; tooling</td><td><div class="chips"><span>Unit testing</span><span>ASan / UBSan</span><span>cppcheck</span><span>QEMU</span><span>GitHub Actions</span><span>STM32CubeIDE</span><span>PlatformIO</span><span>scikit-learn</span></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <ul class="certs">
+          <li><b>Sensors and Actuators (Elite)</b><span>NPTEL</span><time>2026</time></li>
+          <li><b>Applied Machine Learning &amp; AI</b><span>Confederation of Indian Industry (INDIAai)</span><time>2026</time></li>
+          <li><b>Digital Maturity Diagnostic Framework (DX-EDGE)</b><span>CII · NITI Aayog · AICTE</span><time>2026</time></li>
+          <li><b>MongoDB Basics for Students</b><span>MongoDB</span><time>2026</time></li>
+          <li><b>Introduction to IoT · IoT and Digital Transformation</b><span>Cisco Networking Academy</span><time>2025</time></li>
+          <li><b>Essentials Automation Certification</b><span>Automation Anywhere</span><time>2025</time></li>
+          <li><b>Agentblazer Champion</b><span>Salesforce</span><time>2025</time></li>
+        </ul>
+        <p class="note">30+ certifications in total. <a href="https://www.linkedin.com/in/mohan-sai-potnuru-0b274a299/details/certifications/" target="_blank" rel="noopener">Full list on LinkedIn ↗</a></p>
+        <div class="edu">
+          <div><b>B.Tech, Electronics &amp; Communication Engineering</b><span>Dr. Lankapalli Bullayya College of Engineering, Visakhapatnam · 2024 – 2027</span></div>
+          <div><b>Diploma, Electronics &amp; Communication Engineering · 82%</b><span>Sanketika Polytechnic College · SBTET Andhra Pradesh · 2023</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ORDERING ===================== -->
+  <section class="order wrap" id="contact">
+    <p class="label" style="margin-bottom:28px"><span style="color:var(--gold)">§ 8</span> · Ordering information</p>
+    <div class="pn" aria-label="Part number MSP, ECE, EMB, 27">
+      <div class="seg">MSP<small>Mohan Sai Potnuru</small></div><span class="dash">–</span>
+      <div class="seg">ECE<small>Discipline</small></div><span class="dash">–</span>
+      <div class="seg">EMB<small>Embedded · RTOS · IoT · VLSI</small></div><span class="dash">–</span>
+      <div class="seg">27<small>B.Tech class of 2027</small></div>
+    </div>
+    <h2>Let's build something that works on real hardware</h2>
+    <p class="lead">Open to embedded firmware, RTOS, IoT and VLSI / physical-design roles and collaborations. The fastest way to reach me is LinkedIn.</p>
+    <div class="ctas">
+      <a class="btn solid" href="https://www.linkedin.com/in/mohan-sai-potnuru-0b274a299/" target="_blank" rel="noopener">Message me on LinkedIn</a>
+      <a class="btn ghost" href="https://github.com/MohansaiPotnuru" target="_blank" rel="noopener">All code on GitHub</a>
+      <a class="btn ghost" href="https://mohansaipotnuru.github.io/" target="_blank" rel="noopener">Engineering data site</a>
+    </div>
+    <div class="foot"><span>© 2026 Mohan Sai Potnuru · Visakhapatnam, India</span><span>MSP-26 datasheet · Rev 2.1 · hand-written HTML/CSS</span></div>
+  </section>
+</main>
+
+<dialog class="lb" id="lb" aria-label="Enlarged photo">
+  <button class="x" type="button" aria-label="Close">×</button>
+  <img alt="" id="lb-img">
+  <p id="lb-cap"></p>
+</dialog>
+
+<script>
+(function () {
+  /* ---------------- timing diagram ---------------- */
+  var svg = document.getElementById('wave');
+  var NS = 'http://www.w3.org/2000/svg';
+  var start = 2023 + 0 / 12, end = 2027;            // Jan 2023 .. Dec 2026
+  var X0 = 250, X1 = 1080, H = 22, ROW = 48, TOP = 44;
+  function x(y, m) { return X0 + ((y + (m - 1) / 12) - start) / (end - start) * (X1 - X0); }
+  var sigs = [
+    ['S1', 'Kaumodaki NexusGrid', 'Embedded & IoT Engineer', [2026, 4], null, 'Apr 2026 – present'],
+    ['S2', 'CSC India · APSCHE', 'Full Stack Python & Agentic AI', [2026, 5], [2026, 10], 'May – Sep 2026'],
+    ['S3', 'CSC India · IGIAT', 'RTOS Intern', [2025, 5], [2025, 7], 'May – Jun 2025'],
+    ['S4', 'Edunet · AICTE · Shell', 'AI & Data Analytics', [2025, 2], [2025, 4], 'Feb – Mar 2025'],
+    ['S5', 'Agnirva', 'Space & AI programs', [2025, 1], [2025, 7], 'Jan – Jun 2025'],
+    ['S6', 'CEMS', 'Embedded & IoT Developer', [2023, 6], [2023, 12], 'Jun – Nov 2023'],
+    ['CLK', 'DLBCE', 'B.Tech ECE', [2024, 8], null, '2024 – 2027']
+  ];
+  function el(n, a, txt) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; }
+  var h = TOP + sigs.length * ROW + 10;
+  svg.setAttribute('viewBox', '0 0 1100 ' + h);
+  // year grid
+  for (var y = 2023; y <= 2027; y++) {
+    var gx = x(y, 1);
+    el('line', { x1: gx, x2: gx, y1: 22, y2: h - 6, stroke: 'var(--line)', 'stroke-width': 1, 'stroke-dasharray': y === 2027 ? '0' : '3 4' });
+    if (y < 2027) el('text', { x: gx + 6, y: 18, fill: 'var(--muted)', 'font-size': 12 }, String(y));
+  }
+  // "now" marker: Nov 2026
+  var nx = x(2026, 11.5);
+  el('line', { x1: nx, x2: nx, y1: 24, y2: h - 6, stroke: 'var(--pad)', 'stroke-width': 1.5 });
+  el('text', { x: nx - 6, y: 18, fill: 'var(--gold)', 'font-size': 12, 'text-anchor': 'end', 'font-weight': 600 }, 'now');
+
+  sigs.forEach(function (s, i) {
+    var base = TOP + i * ROW + H, hi = base - H;
+    var g = document.createElementNS(NS, 'g'); svg.appendChild(g);
+    function add(n, a, txt) { var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; g.appendChild(e); return e; }
+    add('title', {}, s[0] + ' · ' + s[2] + ' · ' + s[1] + ' · ' + s[5]);
+    add('text', { x: 0, y: base - 4, fill: 'var(--gold)', 'font-size': 12, 'font-weight': 600 }, s[0]);
+    add('text', { x: 42, y: base - 4, fill: 'var(--ink)', 'font-size': 12.5 }, s[1].length > 26 ? s[1].slice(0, 25) + '…' : s[1]);
+    var a = x(s[3][0], s[3][1]);
+    var open = !s[4];
+    var b = open ? X1 - 6 : x(s[4][0], s[4][1]);
+    var e = 4;
+    if (s[0] === 'CLK') {
+      // clock: toggles each semester from start
+      var d = 'M' + X0 + ' ' + base + ' H' + a, cur = a, up = true, step = (X1 - X0) / 8;
+      while (cur < X1 - 6) { var nxt = Math.min(cur + step, X1 - 6); d += (up ? ' V' + hi : ' V' + base) + ' H' + nxt; up = !up; cur = nxt; }
+      add('path', { d: d, fill: 'none', stroke: 'var(--signal)', 'stroke-width': 2, 'stroke-linejoin': 'round' });
+      add('text', { x: a + 8, y: base + 16, fill: 'var(--muted)', 'font-size': 11 }, 'B.Tech ECE, 2024 – 2027');
+      return;
+    }
+    add('rect', { x: a + e, y: hi, width: Math.max(0, b - a - (open ? e : 2 * e)), height: H, fill: 'var(--pad)', 'fill-opacity': .16 });
+    var dpath = 'M' + X0 + ' ' + base + ' H' + a + ' L' + (a + e) + ' ' + hi + ' H' + (open ? b : b - e) + (open ? '' : ' L' + b + ' ' + base + ' H' + X1);
+    add('path', { d: dpath, fill: 'none', stroke: 'var(--pad)', 'stroke-width': 2.2, 'stroke-linejoin': 'round' });
+    if (open) add('path', { d: 'M' + (b - 1) + ' ' + (hi - 5) + ' l8 5 -8 5 z', fill: 'var(--pad)' });
+    var w = b - a, label = s[2];
+    var tx = w > 150 ? a + 12 : (b + 8 < X1 - 120 ? b + 8 : a - 8);
+    var anchor = w > 150 || b + 8 < X1 - 120 ? 'start' : 'end';
+    add('text', { x: tx, y: hi + 15, fill: 'var(--ink)', 'font-size': 11.5, 'text-anchor': anchor }, label);
+    add('text', { x: anchor === 'start' && w > 150 ? a + 12 : tx, y: base + 15, fill: 'var(--muted)', 'font-size': 10.5, 'text-anchor': anchor }, s[5]);
+  });
+
+  /* ---------------- lightbox ---------------- */
+  var lb = document.getElementById('lb'), li = document.getElementById('lb-img'), lc = document.getElementById('lb-cap');
+  document.querySelectorAll('#gallery .shot').forEach(function (f) {
+    f.querySelector('button').addEventListener('click', function () {
+      var img = f.querySelector('img');
+      li.src = img.src; li.alt = img.alt;
+      lc.textContent = f.querySelector('figcaption').innerText.replace(/\n+/g, ' · ');
+      if (lb.showModal) lb.showModal();
+    });
+  });
+  lb.querySelector('.x').addEventListener('click', function () { lb.close(); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+})();
+</script>
+</body>
+</html>
